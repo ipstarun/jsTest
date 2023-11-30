@@ -20,6 +20,7 @@ class JmrPage {
     filterBtn = "#Filter-Id";
     scrollViewSelector = "(//*[@class='multiselect-item-checkbox ng-star-inserted'])/*[contains(text(),'Approved')]";
     ddlSpvName = "//span[contains(text(),'Select SPV Name')]";
+
     chkSelectAllSpvName = "//*[@id='SPVName']/*/*[2]/*[1]/*[1]";
     ddlLocation = "//span[contains(text(),'SelectLocationText')]";
     ddlUpBtnSpvName = '(//*[@class="dropdown-multiselect__caret"])[1]';
@@ -100,6 +101,76 @@ class JmrPage {
     lblFiles = '(//*[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"])[2]';
     btnUpload = '(//*[@class="mat-tooltip-trigger bttn action-btn"])[3]';
 
+    //t
+    navClick = '(//*[@class="ag-input-field-input ag-checkbox-input"])[10]';
+    filClick = '[id="Filter-Id"]';
+    automationClick = '(//*[@class="dropdown-btn"])[4]';
+    selAssignedTo = '(//div[contains(text(), "Automation")])[3]';
+    selStatus = '(//*[@class="dropdown-btn"])[6]';
+    selInprogressStatus = '(//li[@class="multiselect-item-checkbox ng-star-inserted"])[61]'
+    selApprovedStatus = '(//li[@class="multiselect-item-checkbox ng-star-inserted"])[63]';
+    selFilter = '//button[@class="mat-tooltip-trigger bttn action-btn"]';
+    selectNavFilterList = '(//*[@class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-first ag-after-created ag-row-selected"])[2]';
+    getProjectName = '//*[@col-id="SPVName" and @class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value"]';
+    getMonthYearData = '(//*[@col-id="BillingDate"])[2]'
+    jmrMeterdata = '(//*[@col-id="JmrCode"])[2]';
+    //
+    fetchProjectCode = '(//*[@col-id="ProjectCode"])[2]';
+    fetchJmrhStartingDate = '#jmr-input-schedule-start-date1';
+    fetchJmrEndDate = '#jmr-input-schedule-end-date1';
+    fethBillingMonthDate = '(//*[@id="BillingMonthId"])';
+    fetchDemmedGen = '(//*[@class="input-renderer ng-untouched ng-pristine ng-valid"])[2]';
+    fetchUbilledData = '(//*[@class="input-renderer ng-untouched ng-pristine ng-valid"])[1]';
+
+    //project master
+    projectManagement = '(//*[@class="menu-scroll"])[1]';
+    selectProjects = '(//*[@class="txt-12"])[1]';
+    selectDMRCProjectName = '//*[@col-id="ProjectShortName"][contains(text(),"IN.RADI.ACMS")]';
+
+    refernaceCodeData = '(//*[@id="project-referenceCodeId"])';
+    fetchBillingDataMonth = '(//*[@class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value ag-cell-focus"])';
+
+    //erp api
+    btnErpApiStatus = '//a[contains(text(), "ERP API Status")]';
+    fromDateSelector = '(//*[@class="mat-datepicker-toggle-default-icon ng-star-inserted"])[1]';
+    selectDateForFilter = '[aria-label="November 24, 2023"]';
+    //selectRightTick = '(//*[@class="mat-button-wrapper"])[12]';
+    clickMeterRight = '//*[@id="jrm-btn-apply"]';
+    selectRightTik = '[class="mat-focus-indicator ng-tns-c246-11 mat-button mat-stroked-button mat-button-base"]';
+    selectToDate = '(//*[@class="mat-datepicker-toggle-default-icon ng-star-inserted"])[2]';
+    selectSearchOption = '(//*[@class="material-icons"])[2]';
+    firstColProjectName = '(//div[@col-id="ProjectName"])[2]';
+    erpExpectedStatus = '(//div[@col-id="Status"])[3]';
+    erpUpdateOn = '(//*[@col-id="UpdatedOn"])[3]';
+    btnView = '[id="View-Id"]';
+    getNavBodyData = '(//*[@class="default-input ng-untouched ng-pristine"])[2]';
+    //
+
+    //jmr9
+    clickBilledUnit = '(//*[@col-id="BilledUnits"])[2]';
+    clickBillBox = '(//*[@col-id="UnbilledUnits"])[2]/*';
+    setbilledValuee = '[class="input-renderer ng-pristine ng-valid ng-touched"]';
+    setDeemedVaalue = '//*[@col-id="DeemedGeneration"]//*[@type="number"]';
+
+    clickOnDeemedGen = '(//*[@class="input-renderer ng-pristine ng-valid ng-touched"])[2]';
+    clickOnStat = '(//*[@col-id="JmrStatus"])[2]';
+    clickWorkNotstar = '//*[contains(text(),"Work not ")]';
+    selectNextMonth = '[aria-label="December 24, 2023"]';
+    clickReadType = '(//*[@col-id="JmrReadingType"])[2]';
+    clickUnbilled = '//*[contains(text(),"Unbillable")]';
+    jmrStartDate = '(//*[@col-id="StartDate"])[2]';
+    jmsEndDate = '(//*[@col-id="EndDate"])[2]';
+    assignedToSearchIcon = '(//*[@col-id="AssignedToName"])[2]/*/*';
+    assignedtoSelectAutomation = '//*[@col-id="UserName" and @tabindex="-1" and @class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value"]';
+    assignedToRightClickBtn = '(//*[@class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color"])[10]';
+    approveToSearchIcon = '[data-action-type="UserSearch2"]';
+    clickOnRermarkBox = '(//*[@col-id="Remarks"])[2]';
+    setRemarkValue = '(//*[@class="ag-input-field-input ag-text-area-input"])';
+    getAssignedToValue = '//*[@row-index="0"]//*[@aria-colindex="14"]//span';
+    getApprovedToValue = '//*[@row-index]//*[@aria-colindex="15"]//span';
+    clickOkbtn = '[class="primary-cta ng-star-inserted"]';
+    getJmrCo = '//*[@row-id="0"]//*[@col-id="JmrCode"]';
+
 
     async addJmrWithBilledUnits() {
         await $(this.btnAdd).click();
@@ -159,7 +230,7 @@ class JmrPage {
     }
     async clickToJmr() {
         await $(this.jmr).click();
-        await browser.pause(5000);
+        //await browser.pause(5000);
     }
 
     async clickToAdd() {
@@ -171,9 +242,9 @@ class JmrPage {
     async assertRefreshBtn() {
         let isDisplayed = await $(this.jmrRecordsSelector).isDisplayed();
         if (isDisplayed == true) {
-            console.log("Refresh button working well.");
+            Logger.info("Refresh button working well.");
         } else {
-            console.log("Refresh button is not working well.");
+            Logger.info("Refresh button is not working well.");
         }
     }
     async clickOnFilterBtn() {
@@ -250,9 +321,9 @@ class JmrPage {
         const firstRowJmrCodeDataAfterSort = await $(this.jmrCodeFirstRowData).getText();
 
         if (firstRowJmrCodeDataBeforeSort != firstRowJmrCodeDataAfterSort) {
-            await console.log("Sorted");
+            await Logger.info("Sorted");
         } else {
-            await console.log("Not Sorted");
+            await Logger.info("Not Sorted");
         }
     }
 
@@ -264,9 +335,9 @@ class JmrPage {
     async verifyColumnOperation() {
         const isDisplayed = await $(this.sNoColumn).isDisplayed();
         if (isDisplayed == false) {
-            console.log("Column level operations works well.");
+            Logger.info("Column level operations works well.");
         } else {
-            console.log("Column level operations works not well.");
+            Logger.info("Column level operations works not well.");
         }
     }
 
@@ -283,15 +354,15 @@ class JmrPage {
     async verifyCancelBtn() {
         const isClickable = await $(this.cancelBtn).isClickable();
         if (isClickable == false) {
-            console.log("Cancel button works.")
+            Logger.info("Cancel button works.")
         } else {
-            console.log("Cancel button not works.")
+            Logger.info("Cancel button not works.")
         }
     }
 
     async getPaginationInfo() {
         let pagesInfo = await $(this.paginationElement).getText();
-        await console.log("Pagination Data : ", pagesInfo);
+        await Logger.info("Pagination Data : ", pagesInfo);
     }
 
     async clickAssignedToSearch() {
@@ -323,14 +394,14 @@ class JmrPage {
             let tempData = await $$(this.billingMonthData)[i].getText();
             billingMonthDataArray.push(tempData);
         }
-        console.log("Billing month data array : ", billingMonthDataArray);
+        Logger.info("Billing month data array : ", billingMonthDataArray);
         const billingMonthExpectedData = ['Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023', 'Nov-2023'];
         if (JSON.stringify(billingMonthDataArray) == JSON.stringify(billingMonthExpectedData)) {
-            console.log("Test Case 2 Passed");
-            console.log(billingMonthDataArray, billingMonthExpectedData);
+            Logger.info("Test Case 2 Passed");
+            Logger.info(billingMonthDataArray, billingMonthExpectedData);
         } else {
-            console.log("Test Case 2 Failed.")
-            console.log(billingMonthDataArray, billingMonthExpectedData);
+            Logger.info("Test Case 2 Failed.")
+            Logger.info(billingMonthDataArray, billingMonthExpectedData);
         }
     }
 
@@ -348,9 +419,9 @@ class JmrPage {
         let totalJmrBefore = this.getTotalJMRBefore();
         let totalJmrAfter = this.getTotalJmrAfter();
         if (totalJmrAfter != totalJmrBefore) {
-            console.log("Test Case 3 Passed.");
+            Logger.info("Test Case 3 Passed.");
         } else {
-            console.log("Test Case 3 Failed.")
+            Logger.info("Test Case 3 Failed.")
         }
 
     }
@@ -367,7 +438,7 @@ class JmrPage {
         for (let i = 0; i < lengthOfData; i++) {
             billingMonthDataBeforeBulkUpdate.push(await $$(this.billingMonthColumnData)[i].getText());
         }
-        console.log(billingMonthDataBeforeBulkUpdate);
+        Logger.info(billingMonthDataBeforeBulkUpdate);
         return billingMonthDataBeforeBulkUpdate;
     }
 
@@ -394,7 +465,7 @@ class JmrPage {
         await this.selectDateForBillingMonthUnderBulkUpdate();
         await this.clickOnSearch();
         const BillingMonthDataAfterBulkUpdate = await this.fetchBillingMonthData();
-        console.log(BillingMonthDataBeforeBulkUpdate, BillingMonthDataAfterBulkUpdate);
+        Logger.info(BillingMonthDataBeforeBulkUpdate, BillingMonthDataAfterBulkUpdate);
         let temp = true;
         for (let i = 1; i < BillingMonthDataAfterBulkUpdate.length; i++) {
             if (BillingMonthDataBeforeBulkUpdate[i] != BillingMonthDataAfterBulkUpdate[i]) {
@@ -404,7 +475,7 @@ class JmrPage {
             }
         }
         // if(temp == false){
-        //     console.log("Bulk Update Failed.");
+        //     Logger.info("Bulk Update Failed.");
         // }
     }
 
@@ -446,9 +517,9 @@ class JmrPage {
         let lastBilledUnitsData = await $(lastBillableJmrData).getText();
         let lastAddedBilledUnits = lastBilledUnitsData.substr(0, 2)
         if (lastAddedBilledUnits == 25) {
-            console.log("The user can create a JMR with billed units");
+            Logger.info("The user can create a JMR with billed units");
         } else {
-            console.log("The user can't create a JMR with billed units");
+            Logger.info("The user can't create a JMR with billed units");
         }
     }
 
@@ -459,9 +530,9 @@ class JmrPage {
         let lastBilledUnitsData = await $(lastBillableJmrData).getText();
         let lastAddedBilledUnits = lastBilledUnitsData.substr(0, 1)
         if (lastAddedBilledUnits == 0) {
-            console.log("The user can create a JMR with non-billed units");
+            Logger.info("The user can create a JMR with non-billed units");
         } else {
-            console.log("The user can't create a JMR with non-billed units");
+            Logger.info("The user can't create a JMR with non-billed units");
         }
     }
 
@@ -486,9 +557,9 @@ class JmrPage {
         await $(this.btnSave).click();
         let dialogMsg = await $(this.dialogMessage).getText();
         if (dialogMsg == "Please enter valid details") {
-            console.log("User can't enter billed units less than 0.");
+            Logger.info("User can't enter billed units less than 0.");
         } else {
-            console.log("User has not entered billed units less than 0.");
+            Logger.info("User has not entered billed units less than 0.");
         }
     }
 
@@ -509,9 +580,9 @@ class JmrPage {
         await $(this.btnDeleteAsset).click();
         let isDisplayed = await $(this.firstAddedAsset).isDisplayed();
         if (isDisplayed == true) {
-            console.log('The delete asset is not working fine');
+            Logger.info('The delete asset is not working fine');
         } else {
-            console.log('The delete asset is working fine');
+            Logger.info('The delete asset is working fine');
         }
     }
 
@@ -536,9 +607,9 @@ class JmrPage {
         let lastEditedBilledUnitsData = await $(lastEditedBillableJmrData).getText();
         let lastEditedBilledUnits = lastEditedBilledUnitsData.substr(0, 2)
         if (lastEditedBilledUnits = 40) {
-            console.log("The user can edit the JMR.");
+            Logger.info("The user can edit the JMR.");
         } else {
-            console.log("The user can't edit the JMR.");
+            Logger.info("The user can't edit the JMR.");
         }
 
 
@@ -571,158 +642,356 @@ class JmrPage {
 
     }
 
+    async getAllErpData() {
+        const listItems = $(this.getNavBodyData);
+        await browser.pause(2000);
+        let listItemTexts = await listItems.getValue();
+        listItems.forEach((item) => {
+            listItemTexts.push(item.textContent);
+        });
+        let listJsonString = JSON.stringify(listItemTexts);
+        let ndata = listJsonString.trim();
+        Logger.info("the jsonstring", ndata);
+        let projName = ndata.slice(20, 43);
+        Logger.info("the proj name is js:", projName);
+        let projeCode = ndata.slice(64, 71);
+        Logger.info("the project code name is js:", projeCode);
+        let plnCode = ndata.slice(90, 98);
+        Logger.info("the plant code name is js:", plnCode);
 
-
-    //tarun jmr testcase 26
-    navClick = '(//*[@class="ag-input-field-input ag-checkbox-input"])[10]';
-    filClick = '(//*[@class="mat-tooltip-trigger bttn action-btn"])[2]';
-    automationClick = '(//*[@class="dropdown-btn"])[4]';
-    selAssignedTo = '(//div[contains(text(), "Automation")])[3]';
-    selStatus = '(//*[@class="dropdown-btn"])[6]';
-    selApprovedStatus = '(//li[@class="multiselect-item-checkbox ng-star-inserted"])[63]';
-    selFilter = '//button[@class="mat-tooltip-trigger bttn action-btn"]';
-    selectNavFilterList = '(//*[@class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-first ag-after-created ag-row-selected"])[2]';
-    getProjectName = '(//*[@col-id="SPVName"])[2]';
-    jmrMeterdata = '(//*[@col-id="JmrCode"])[2]';
-    fetchProjectCode = '(//*[@col-id="ProjectCode"])[2]';
-    fetchJmrhStartingDate = '#jmr-input-schedule-start-date1';
-    fetchJmrEndDate = '#jmr-input-schedule-end-date1';
-    fethBillingMonthDate = '(//*[@id="BillingMonthId"])';
-    fetchDemmedGen = '(//*[@class="input-renderer ng-untouched ng-pristine ng-valid"])[2]';
-
-    //project master
-    projectManagement = '(//*[@class="menu-scroll"])[1]';
-    selectProjects = '(//*[@class="txt-12"])[1]';
-    selectDMRCProjectName = '[ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value ag-cell-focus]'
-
-    refernaceCodeData = '(//*[@id="project-referenceCodeId"])'
-
-    //(//*[@class="input-renderer ng-untouched ng-pristine ng-valid"])[2]
-    //(//*[@col-id="DeemedGeneration"])[2]
-
-
-
-    //
-    fetchBillingDataMonth = '(//*[@class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value ag-cell-focus"])';
-
-    //erp api
-    btnErpApiStatus = '//a[contains(text(), "ERP API Status")]';
-    fromDateSelector = '(//*[@class="mat-datepicker-toggle-default-icon ng-star-inserted"])[1]';
-    selectDateForFilter = '[aria-label="November 21, 2023"]';
-    selectRightTick = '(//*[@class="mat-button-wrapper"])[12]';
-    selectToDate = '(//*[@class="mat-datepicker-toggle-default-icon ng-star-inserted"])[2]';
-    selectSearchOption = '(//*[@class="material-icons"])[2]';
-    //getFullText = '(//*[@class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-first ag-after-created ag-row-selected"])[2]'
-    //compareing text
-    //(//*[@class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-first ag-after-created ag-row-selected"])[2]
-    firstColProjectName = '(//div[@col-id="ProjectName"])[2]';
-    expectedStatus = '(//div[@col-id="Status"])[2]';
-    btnView = '[id="View-Id"]';
-    getNavBodyData = '(//*[@class="default-input ng-untouched ng-pristine"])[2]'
-
-    //expectedStatus = '.ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value ag-cell-focus'
-
-    //erpSrno = '.ag-cell ag-cell-not-inline-editing ag-cell-normal-height serial-number ag-cell-value ag-cell-focus';
-
-    //api page 
-    selectFirstNot = '(//*[@class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height serial-number ag-cell-value"])[1]';
-    //eyes button
-    slectEye = '(//*[@class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color"])[2]';
-    //get nav data
-    getNavData = '#NavBodyId';
-
-    //compareData(eye)
-    getCompareData = '(//*[@class="default-input ng-untouched ng-pristine"])[2]'
+    }
+    async projectMasterAlldata() {
+        //refernaceCodeData
+        const listItems = $(this.refernaceCodeData);
+        await browser.pause(2000);
+        let listItemTexts = await listItems.getValue();
+        listItems.forEach((item) => {
+            listItemTexts.push(item.textContent);
+        })
+        Logger.info("project master all data", listItemTexts);
+    }
 
 
 
 
-    async clinkChkBox() {
-
-        await $(this.navClick).click();
+    async jmrDataMainMethod() {
         await $(this.filClick).click();
         await $(this.automationClick).click();
         await $(this.selAssignedTo).click();
         await $(this.selStatus).scrollIntoView();
-
         await $(this.selStatus).click();
-
         await $(this.selApprovedStatus).click();
-
         await $(this.selStatus).click();
-
         await $(this.selectSearchOption).click();
-
         await $(this.selFilter).click();
 
         const getPrjName = await $(this.getProjectName).getText();
-        console.log("value project  name is : ", getPrjName);
+        Logger.info("value project  name is : ", getPrjName);
+
+        const getPrjMonthData = await $(this.getMonthYearData).getText();
+        Logger.info("Project year date is : ", getPrjMonthData);
 
         const jmrMeter = await $(this.jmrMeterdata).getText();
-        console.log("jmr meret  reading is", jmrMeter);
+        Logger.info("jmr meret  reading is", jmrMeter);
 
         const projCode = await $(this.fetchProjectCode).getText();
-        console.log("jmr project", projCode);
-
-        const viewsBtn = await $(this.btnView).click();
+        Logger.info("jmr project", projCode);
 
 
         const projStart = await $(this.fetchJmrhStartingDate).getValue();
-        console.log("jmr project start date", projStart);
+        Logger.info("jmr project start date", projStart);
 
         const projEndDate = await $(this.fetchJmrEndDate).getValue();
-        console.log("jmr project end date", projEndDate);
+        Logger.info("jmr project end date", projEndDate);
 
-        const deemedDate = await $(this.fetchDemmedGen).getValue();
-        console.log("jmr deemed value is:-", deemedDate);
+        const deemedData = await $(this.fetchDemmedGen).getValue();
+        Logger.info("jmr deemed value is:-", deemedData);
+
+        const unbilled = await $(this.fetchUbilledData).getValue();
+        Logger.info("jmr billed value is:-", unbilled);
 
         const bilMon = await $(this.fethBillingMonthDate).getValue();
-        console.log("jmr month date is:-", bilMon);
+        Logger.info("jmr month date is:-", bilMon);
 
-        await $(this.projectManagement).click();
-        await $(this.selectProjects).click();
-        // await $(this.selectDMRCProjectName).scrollIntoView();
-        await $(this.selectDMRCProjectName).click();
+        //correct end
+        await browser.pause(2000);
 
-
-
-
-        // const jmrStartDt = await $(this.jmrStartDate).getText();
-        // console.log("jmr jmr startdat reading is", jmrStartDt);
-
-
-
-        //  //erpApi
-        // await $(this.cmms).moveTo();
-        //await $(this.btnErpApiStatus).click();
-        // await $(this.selFilter).click();
-        // await $(this.fromDateSelector).click();
-        // await $(this.selectDateForFilter).click();
-        // await $(this.selectRightTick).click();
-        // await $(this.selectToDate).click();
-        // await $(this.selectDateForFilter).click();
-        // await $(this.selectRightTick).click();
-        // await $(this.selectSearchOption).click();
-        // const b = await $(this.firstColProjectName).getText();
-        // console.log("value first name is : ", b);
-        // const a = await $(this.expectedStatus).getText();
-        // console.log("value is : ", a);
-        // await $(this.btnView).click();
-        // const navb = await $(this.getNavBodyData).getValue();
-        // console.log("navbar data is ", navb);
-        await browser.pause(4000);
-
-        //await $(this.btnErpApiStatus).scrollIntoView();
-        // await $(this.btnErpApiStatus).click();
-        // await $(this.jmr).click();
 
     }
+
+
+    async erpAPRIDatamethod() {
+        await $(this.cmms).moveTo();
+        await $(this.btnErpApiStatus).click();
+        await $(this.selFilter).click();
+        await $(this.fromDateSelector).click();
+        await $(this.selectDateForFilter).click();
+        await $(this.selectRightTick).click();
+        await $(this.selectToDate).click();
+        await $(this.selectDateForFilter).click();
+        await browser.pause(2000);
+        await $(this.selectRightTick).click();
+        await browser.pause(2000);
+        await $(this.selectSearchOption).click();
+        await browser.pause(4000);
+
+        const prjName = await $(this.firstColProjectName).getText();
+        Logger.info("value first name is : ", prjName);
+
+        const erpUpdOn = await $(this.erpUpdateOn).getText();
+        Logger.info("the updated date is : ", erpUpdOn);
+
+
+        const expStatus = await $(this.erpExpectedStatus).getText();
+        Logger.info("expectedStatus ERP value is :", expStatus);
+
+        await $(this.btnView).click();
+
+        //erps json
+        const listItems = $(this.getNavBodyData);
+        await browser.pause(2000);
+        let listItemTexts = await listItems.getValue();
+        listItems.forEach((item) => {
+            listItemTexts.push(item.textContent);
+        });
+
+        let listJsonString = JSON.stringify(listItemTexts);
+        let ndata = listJsonString.trim();
+        Logger.info("the jsonstring", ndata);
+        let projName = ndata.slice(20, 43);
+        Logger.info("the proj name is js:", projName);
+        let projeCode = ndata.slice(64, 71);
+        Logger.info("the project code name is js:", projeCode);
+        let plnCode = ndata.slice(90, 98);
+        Logger.info("the plant code name is js:", plnCode);
+
+
+
+        //project master
+        await $(this.projectManagement).click();
+        browser.pause(3000);
+        await $(this.selectProjects).click();
+
+        await $(this.selectDMRCProjectName).click();
+        await $(this.btnView).click();
+
+        const listItemss = await $(this.refernaceCodeData);
+        const da = await listItemss.getValue();
+        const listDa = await da.trim();
+        Logger.info("list da:", listDa)
+
+        let proName = await listDa.slice(8, 31);
+        Logger.info("the project name is:", proName);
+
+        let proCode = await listDa.slice(32, 39);
+        Logger.info("the project code is:", proCode);
+
+        let planCode = await listDa.slice(40, 49);
+        Logger.info("the plant code is:", planCode);
+
+        // comapre name
+        Logger.info(proName);
+        Logger.info(projName);
+
+
+        expect(proName).toEqual(projName);
+        expect(proCode).toEqual(projeCode);
+        expect(planCode).toEqual(plnCode);
+        await browser.pause(2000);
+    }
+
+
+
+    //tc9
+
+    async getJmrCode() {
+        await $(this.getJmrCo).click();
+        const jmrCode = await $(this.getJmrCo).getText();
+        Logger.info("jmr code", jmrCode);
+
+    }
+
+
+    async filterOpertaionJmr() {
+        await $(this.filClick).click();
+        await $(this.automationClick).click();
+        await $(this.selAssignedTo).click();
+        //await browser.pause(2000);
+        await $(this.selStatus).scrollIntoView();
+        //await browser.pause(2000);
+        await $(this.selStatus).click();
+        // await browser.pause(2000);
+        await $(this.selInprogressStatus).click();
+        // await browser.pause(2000);
+        await $(this.selFilter).click();
+        // await browser.pause(5000);
+
+    }
+
+    async beforeEditingProjectStatus() {
+        var getSta = await $(this.clickOnStat).getText();
+        Logger.info("status:", getSta);
+
+    }
+
+    async EditingProjectStatus() {
+        await $(this.clickOnStat).doubleClick();
+        Logger.info("clickeddd")
+        await browser.pause(2000);
+        await $(this.clickOnStat).click();
+        await $(this.clickWorkNotstar).click();
+
+    }
+
+    async beforeEditingReadingType() {
+        const readData = await $(this.clickReadType).getText();
+        Logger.info("the reasd", readData);
+        await browser.pause(2000);
+
+    }
+
+    async EditingReadingType() {
+        await $(this.clickReadType).doubleClick();
+        await browser.pause(2000);
+        await $(this.clickReadType).click();
+        await browser.pause(2000);
+        await $(this.clickUnbilled).click();
+        await browser.pause(2000);
+    }
+
+    async beforeEditingBilledMonth() {
+        const bilMonth = await $(this.billingMonthData).getText();
+        Logger.info("bil month", bilMonth);
+    }
+
+    async EditingBilledMonth() {
+        await $(this.billingMonthData).doubleClick();
+        await browser.pause(2000);
+        await $(this.btnCalenderBillingMonthUnderBulkUpdate).click();
+        await browser.pause(2000);
+        await $(this.btnNextMonthUnderBillingMonth).click();
+        await $(this.selectNextMonth).click();
+        await browser.pause(2000);
+        await $(this.selectRightTik).waitForDisplayed();
+        await $(this.selectRightTik).click();
+        await browser.pause(2000);
+
+    }
+
+    async beforeEditingJmrStaringDate() {
+        const jmstart = await $(this.jmrStartDate).getText();
+        Logger.info("jmrstart", jmstart);
+    }
+
+    async EditingJmrDate() {
+        await $(this.jmrStartDate).doubleClick();
+        await $(this.btnCalenderBillingMonthUnderBulkUpdate).click();
+        await browser.pause(2000);
+        await $(this.btnNextMonthUnderBillingMonth).click();
+        await $(this.selectNextMonth).click();
+        await browser.pause(2000);
+        await $(this.selectRightTik).click()
+        await browser.pause(2000);
+
+    }
+
+    async beforeEditingJmrEndDate() {
+        const jmrEndD = await $(this.jmsEndDate).getText();
+        Logger.info("end date is", jmrEndD);
+    }
+
+    async EditingJmrEndDate() {
+        await $(this.jmsEndDate).doubleClick();
+        await $(this.btnCalenderBillingMonthUnderBulkUpdate).click();
+        await browser.pause(2000);
+        await $(this.btnNextMonthUnderBillingMonth).click();
+        await $(this.selectNextMonth).click();
+        await browser.pause(2000);
+        await $(this.selectRightTik).click();
+        await browser.pause(2000);
+    }
+    async beforeEditAssignedToValue() {
+        const assignedToV = await $(this.getAssignedToValue).getText();
+        Logger.info("assigned to", assignedToV);
+    }
+
+    async editingAssignedTo() {
+        await browser.pause(2000);
+        await $(this.assignedToSearchIcon).click();
+        await browser.pause(2000);
+        await $(this.assignedtoSelectAutomation).click();
+        await browser.pause(2000);
+        await $(this.assignedToRightClickBtn).click();
+        await browser.pause(2000);
+    }
+
+
+    async beforeEditApprover() {
+        const approvedTo = await $(this.getApprovedToValue).getText();
+        Logger.info("approved to", approvedTo);
+    }
+
+    async editingApprovedTo() {
+        await browser.pause(2000);
+        await $(this.approveToSearchIcon).click();
+        await browser.pause(2000);
+        await $(this.assignedtoSelectAutomation).click();
+        await browser.pause(2000);
+        await $(this.assignedToRightClickBtn).click();
+        await browser.pause(2000);
+    }
+
+    async beforeEditRemarkValue() {
+        const remark = await $(this.clickOnRermarkBox).getValue();
+        Logger.info("the remark:", remark);
+
+    }
+
+    async editRemarkValue() {
+        await browser.pause(2000);
+        await $(this.clickOnRermarkBox).doubleClick();
+        await browser.pause(2000);
+        await $(this.setRemarkValue).setValue("remark");
+        await browser.pause(2000);
+        await $(this.jmrStartDate).click();
+        await browser.pause(2000);
+    }
+
+    async beforeEditBilledAndDeemedValue() {
+        await $(this.iconPlus).click();
+        await browser.pause(2000);
+        await $(this.clickBilledUnit).click();
+        await browser.pause(2000);
+        await $(this.clickBilledUnit).click();
+        const unbilledVal = await $(this.fetchUbilledData).getValue();
+        Logger.info("unbilled value ", unbilledVal);
+        const deemedVal = await $(this.setDeemedVaalue).getValue();
+        Logger.info("the deemedValue", deemedVal);
+        await $(this.clickMeterRight).click();
+        await browser.pause(2000);
+        await $(this.clickOkbtn).click();
+        await browser.pause(2000);
+    }
+
+
+    async editUnbilledAndDeemedValue() {
+        await $(this.iconPlus).click();
+        await browser.pause(2000);
+        await $(this.clickBilledUnit).click();
+        await browser.pause(2000);
+        await $(this.clickBilledUnit).click();
+        await $(this.fetchUbilledData).setValue("100");
+        await browser.pause(2000);
+        await $(this.setDeemedVaalue).setValue("101");
+        await $(this.selectRightTik).click();
+        await $(this.clickOkbtn).click();
+        await browser.pause(2000);
+    }
+
+
+
+
 }
 
 export default new JmrPage;
 
-
-// for (const item of this.selectNavFilterList) {
-//     const text = await item.getValue();
-//     console.log(text);
-// }
