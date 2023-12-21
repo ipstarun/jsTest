@@ -32,8 +32,9 @@ const PlantNameData = {
     percentageStringCurrent: "5.64",
     projectPlantName: "testuser01",//you cna change the name accordrdingly
     projectTiltPlantName: "testuser21",
+    projectNameForVerifyCounrty: "GR.SUNS.VATH",
     projectTiltVerify: 'anderson',
-    exestingProjectPlantName: "autotest",
+    existingProjectPlantName: "autotest",
   },
 }
 export default PlantNameData;

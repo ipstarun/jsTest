@@ -11,71 +11,14 @@ Logger.level = "debug";
 
 describe("Projects Test cases.", () => {
 
-     it('TC_Projects_01 : Verify whether the user is able to refresh project page.', async () => {
+     it('TC_Projects_02 :Verify whether the user is able to add a new project.', async () => {
           await LoginPage.loginWithValidCredentials();
-
-     });
-
-     it('TC_Projects_02 :"Verify whether the user is able to add a new project. Verify whether the below fields are mandatory while creating a project: Long name Short name Latitude Longitude Capacity Address Country Timezone Domain Data interval Contact Person Mob Email"', async () => {
-          // console.log('run');
-          await LoginPage.loginWithValidCredentials();
-          await browser.pause(3000);
           await ManagementProjectsPage.clickOnManagement();
-          await browser.pause(5000);
-          await ManagementProjectsPage.createaNewProject();
-          await browser.pause(3000);
+          await ManagementProjectsPage.verifyNewUserDataValidation();
+          await HomePage.logoutSession();
 
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setProtocolType();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setLatitudeValue();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setLongitudeValue();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setCapacity();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setAddress();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setCountry();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setTimeJone();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setDomain();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setDataInterval();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setplantControllerID();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setContactPersonName();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setMobileNo();
-          // await browser.pause(1000);
-          // await ManagementProjectsPage.setEmailId();
-          // await browser.pause(3000);
-
-
-
-          ////filterForCheck  //correct
-          // await ManagementProjectsPage.filterForCheck();
-          // await browser.pause(3000);
-          // await ManagementProjectsPage.getLongName();
-          // await ManagementProjectsPage.getShortName();
-          // await ManagementProjectsPage.getProtocolType();
-          // await ManagementProjectsPage.getLatitudeValue();
-          // await ManagementProjectsPage.getLongitudeValue();
-          // await ManagementProjectsPage.getPlantLocation();
-          // await ManagementProjectsPage.getCapacity();
-          // await ManagementProjectsPage.getAddress();
-          // await ManagementProjectsPage.getCountry();
-          // await ManagementProjectsPage.getTimeJone();
-          // await ManagementProjectsPage.getDomain();
-          // await ManagementProjectsPage.getDataInterval();
-          // await ManagementProjectsPage.getplantControllerID();
-          // await ManagementProjectsPage.getContactPersonName();
-          // await ManagementProjectsPage.getMobileNo();
-          // await ManagementProjectsPage.getEmailId();
-          // await browser.pause(3000);
      });
+
 
 
      it('TC_Projects_03 :"Verify whether the user is able to edit the created project"', async () => {
@@ -105,7 +48,7 @@ describe("Projects Test cases.", () => {
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.clickOnManagement();
           await browser.pause(3000);
-          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.exestingProjectPlantName);//for specific user
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.existingProjectPlantName);//for specific user
           await browser.pause(3000);
           await ManagementProjectsPage.clickEditIcon();
           var defaultValues = await ManagementProjectsPage.readDefaultData();
@@ -115,7 +58,6 @@ describe("Projects Test cases.", () => {
           await ManagementProjectsPage.saveEditedData();
           await ManagementProjectsPage.filterForCheck(initalData[0]);
           await ManagementProjectsPage.clickEditIcon();
-
           //assertion
           var asserstionCompareValues = await ManagementProjectsPage.afterEditGetDataForCompare();
           await ManagementProjectsPage.compareAssertionData(initalData[0], asserstionCompareValues[0]);
@@ -129,7 +71,6 @@ describe("Projects Test cases.", () => {
 
 
      it('TC_Projects_05 :"Verify whether the user is able to view after selecting any project by clicking on view icon."', async () => {
-
           await LoginPage.loginWithValidCredentials();
           await browser.pause(3000);//required for side loading
           await ManagementProjectsPage.clickOnManagement();
@@ -154,35 +95,6 @@ describe("Projects Test cases.", () => {
 
      });
 
-     it('TC_Projects_12 :Verify whether the plant is listed under respective country selected from projects master in landing page', async () => {
-          await LoginPage.loginWithValidCredentials();
-          await ManagementProjectsPage.gotoProjects();
-
-
-     });
-
-     it.only('TC_Projects_14 :Verify whether the Tilt angle is a mandatory field when the user selects either fixed tilt or seasonal tilt  as mounting type', async () => {
-          await LoginPage.loginWithValidCredentials();
-          await ManagementProjectsPage.gotoProjects();
-          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectTiltPlantName);//for specific user
-          await ManagementProjectsPage.clickEditIcon();
-          //assertion
-          await ManagementProjectsPage.verifySeasonalAndTiltAngle();
-          browser.pause(4000);
-     });
-
-
-
-     it('TC_Projects_15 :Verify whether the user is only allowed to enter values between -90 to +90 in the tilt angle field and any values outside this range should show the below error message- Please enter number between -90 to 90', async () => {
-          await LoginPage.loginWithValidCredentials();
-          await ManagementProjectsPage.gotoProjects();
-          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectTiltPlantName);//for specific user
-          await ManagementProjectsPage.clickEditIcon();
-          //assertion
-          await ManagementProjectsPage.verifyTiletAngle();
-     });
-
-
 
 
 
@@ -196,20 +108,91 @@ describe("Projects Test cases.", () => {
      });
 
      it('TC_Projects_09 :Verify whether the charts are getting plotted based on operational start and end time set at project level', async () => {
+
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.gotoProjects();
           await ManagementProjectsPage.selectSpecificPlantName(PlantNameData.plantData.specificPlantName);
-          await ManagementProjectsPage.chartsGettingPlottedBasedOnOperationalStartAndEndTime();
+          await ManagementProjectsPage.chartsGettingPlottedBasedOnOperationalCurrentStartAndEndTime();
+          await ManagementProjectsPage.chartsGettingPlottedBasedOnOperationalUpdatedStartAndEndTime();
           await HomePage.logoutSession();
-     }),
+     });
 
-          it('TC_Projects_10 :Verify whether the project capacity is listed in landing page based on the selection in projects master', async () => {
-               await LoginPage.loginWithValidCredentials();
-               await ManagementProjectsPage.gotoProjects();
-               await ManagementProjectsPage.selectSpecificPlantName(PlantNameData.plantData.specificPlantName);
-               await ManagementProjectsPage.projectCapacityListedInLandingPage();
-               await HomePage.logoutSession();
-          });
+     it('TC_Projects_10 :Verify whether the project capacity is listed in landing page based on the selection in projects master', async () => {
+
+          await LoginPage.loginWithValidCredentials();
+          await ManagementProjectsPage.gotoProjects();
+          await ManagementProjectsPage.selectSpecificPlantName(PlantNameData.plantData.specificPlantName);
+          await ManagementProjectsPage.projectCapacityListedInLandingPage();
+          await HomePage.logoutSession();
+     });
+
+     it('TC_Projects_12 :Verify whether the plant is listed under respective country selected from projects master in landing page', async () => {
+          await LoginPage.loginWithValidCredentials();
+          await ManagementProjectsPage.gotoProjects();
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectNameForVerifyCounrty);//for specific user       
+          await ManagementProjectsPage.verifyCountryLocation();
+          await HomePage.logoutSession();
+
+
+     });
+
+
+
+     it('TC_Projects_13 :Verify whether the mounting type is a mandatory field while creating project with the below options to select from --Fixed Tilt,Seasonal Tilt,Single-axis-tracker,Dual-axis-tracker', async () => {
+          await LoginPage.loginWithValidCredentials();
+          await ManagementProjectsPage.gotoProjects();
+          await ManagementProjectsPage.createNewProjectToVerifyMountingType();
+          await HomePage.logoutSession();
+     });
+
+
+
+     it('TC_Projects_14 :Verify whether the Tilt angle is a mandatory field when the user selects either fixed tilt or seasonal tilt  as mounting type', async () => {
+          await LoginPage.loginWithValidCredentials();
+          await ManagementProjectsPage.gotoProjects();
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectTiltPlantName);//for specific user
+          await ManagementProjectsPage.clickEditIcon();
+          //assertion
+          await ManagementProjectsPage.verifySeasonalAndTiltAngle();
+          await HomePage.logoutSession();
+
+     });
+
+
+
+     it('TC_Projects_15 :Verify whether the user is only allowed to enter values between -90 to +90 in the tilt angle field and any values outside this range should show the below error message- Please enter number between -90 to 90', async () => {
+          await LoginPage.loginWithValidCredentials();
+          await ManagementProjectsPage.gotoProjects();
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectTiltPlantName);//for specific user
+          await ManagementProjectsPage.clickEditIcon();
+          //assertion
+          await ManagementProjectsPage.verifyTiletAngle();
+          await HomePage.logoutSession();
+
+
+     });
+
+
+     it('TC_Projects_16 :Verify whether the user is able to enter current date or past date for the plant commission date other than the future date', async () => {
+          await LoginPage.loginWithValidCredentials();
+          await ManagementProjectsPage.gotoProjects();
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectTiltPlantName);//for specific user
+          await ManagementProjectsPage.verifyUserNotAbleToSelectFutureDate();
+
+     });
+
+     it('TC_Projects_22 :Verify whether the user is able to select/unselect the features at project level and the same is getting reflected for the logged in users ', async () => {
+          await LoginPage.loginWithValidCredentials();
+          await ManagementProjectsPage.gotoProjects();
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectTiltPlantName);//for specific user
+          await ManagementProjectsPage.selectAndUnselectFeature();
+          await HomePage.logoutSession();
+     });
+
+
+
+
+
 
 
      it('TC_Projects_29 :Verify whether the user is able to add/remove Maintenance engg,site in charge or safety in charge', async () => {
@@ -220,31 +203,20 @@ describe("Projects Test cases.", () => {
           await ManagementProjectsPage.clickIconSearchMaintenanceEngineer();
           await ManagementProjectsPage.clickIconSearchSiteIncharge();
           await HomePage.logoutSession();
-
      });
 
      it('TC_Projects_30[1]:Verify whether the user is able to perform the column level(filter) operations in the grid', async () => {
-
           await LoginPage.loginWithValidCredentials();
-
           await ManagementProjectsPage.gotoProjects();
-
           await ManagementProjectsPage.performFilterColumnLevel();
-
           await HomePage.logoutSession();
-
      });
 
      it('TC_Projects_30[2]:Verify whether the user is able to perform the sorting(Long Name) operations in the grid', async () => {
-
           await LoginPage.loginWithValidCredentials();
-
           await ManagementProjectsPage.gotoProjects();
-
           await ManagementProjectsPage.performShortingColumnLevel();
-
           await HomePage.logoutSession();
-
      });
 
 });

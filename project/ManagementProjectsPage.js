@@ -2,6 +2,10 @@ var Log4js = require("log4js");
 var Logger = Log4js.getLogger();
 Logger.level = "debug";
 import PlantNameData from "../Data/PlantNameData";
+import HomePage from '../Pages/HomePage.js';
+import LoginPage from '../Pages/LoginPage.js';
+import TechnicalPage from "./TechnicalPage.js";
+
 
 
 
@@ -82,15 +86,22 @@ class ManagementProjects {
   chkDisableAddress = '[id="project-addressId"][disabled]';
   selCountryName = '[id="project-countryId"]';
   chkDisableCountryName = '//*[@id="project-countryId"]//*[@disabled]';
-  addCountry = '//*[contains(text(),"Andorra")]';
+  addCountry = '//*[contains(text(),"India")]';
+  addDefaultCountry = '//*[contains(text(),"Greece")]';
+
   edtCountry = '//*[contains(text(),"Angola")]';
-  selTimeJone = '[id="project-timezoneId"]';
+  selTimeZone = '[id="project-timezoneId"]';
   chkDisableTimeJone = '//*[@id="project-timezoneId"]//*[@disabled]';
   addTimeJone = '//*[contains(text(),"(UTC-12:00)")]';
   edtTimeJone = '//*[contains(text(),"(UTC-11:00)")]';
   selDomain = '[id="project-domainId"]';
   selMountingType = '[name="MountingType"]';
   editMountingType = '//*[contains(text(),"Fixed Tilt")]';
+  editMountingTypeToSeasonalTilt = '//*[contains(text(),"Seasonal Tilt")]';
+  editMountingToSingleAxisTracker = '//*[contains(text(),"Single Axis Tracker")]';
+  editMountingToDualAxisTracker = '//*[contains(text(),"Dual Axis Tracker")]';
+
+
   checkErrorMesasge = '[class="error-msg ng-star-inserted"]'
 
   selTiltAngle = '[id="project-tiltAngle"]';
@@ -119,6 +130,11 @@ class ManagementProjects {
   clickOnExitingProject = '(//*[@class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-cell-value"])[5]';
   iconSearchMaintenanceEngineer = '#project-addME > i';
   chkbxFirstUsers = '//*[@row-id="0"]//*[@ref="eWrapper"]';
+  clickHome = '[fill="#165FFA"]';
+  clickAllButton = '[id="all-button"]';
+  clickGreece = '(//*[@id="in-button"])[2]';
+  getFilteredLocation = '//*[@ref="eContainer"]//*[@col-id="Location"]';
+
   btnApply = '[id="applyButton"]';
   divMaintainanceEngineerList = '[name="MaintainanceEngineerList"]';
   divSiteEngineerList = '[name="SiteEngineerList"]'
@@ -136,9 +152,13 @@ class ManagementProjects {
   thirdCellLongName = '//*[@row-index="2"]//div[@col-id="ProjectLongNameSL"]';
   fourthCellLongName = '//*[@row-index="3"]//div[@col-id="ProjectLongNameSL"]';
   clickOnFirstProjectName = '//*[@row-index="0"]//*[@col-id="ProjectShortName"]';
+  selDataApiUrl = '[id="project-dataApiUrlId"]';
+  addDataApi = '//*[contains(text(),"https://ftpstore.prescinto.com/")]';
+  selWeatherSource = '[id="project-weatherSourceId"]';
+  addWetherSource = '//*[contains(text(),"AERIS")]';
 
   //prj
-  // Pranju 
+  // 
   iconView = '[id="View-Id"]';
   divStartTime = '//*[@id="project-starttime"]//div[@class="ngx-timepicker-control"]/*[@placeholder="HH"]';
   divEndTime = '//*[@id="project-endtime"]//div[@class="ngx-timepicker-control"]/*[@placeholder="HH"]';
@@ -151,12 +171,251 @@ class ManagementProjects {
   afterCheckedManagementView = '(//div[@col-id="ViewEnum"])[2]//span[@class="fa fa-check-circle toggle-button-yes"]';
   afterUncheckedManagementEdit = '(//div[@col-id="EditEnum"])[2]//span[@class="fa fa-times-circle toggle-button-no"]';
   afterCheckedManagementEdit = '(//div[@col-id="EditEnum"])[2]//span[@class="fa fa-check-circle toggle-button-yes"]';
+  iconView = '[id="View-Id"]';
+  divStartTime = '//*[@id="project-starttime"]//div[@class="ngx-timepicker-control"]/*[@placeholder="HH"]';
+  divEndTime = '//*[@id="project-endtime"]//div[@class="ngx-timepicker-control"]/*[@placeholder="HH"]';
+  btnHome = '[id="home-button-id"]';
+  selCapacityId = '[id="project-capacityId"]';
+  firstCellCapacity = '//*[@row-index="0"]//div[@col-id="Capacity"]';
+  chekboxManagementView = '(//div[@col-id="ViewEnum"])[2]';
+  chekboxManagementEdit = '(//div[@col-id="EditEnum"])[2]';
+  afterUncheckedManagementView = '(//div[@col-id="ViewEnum"])[2]//span[@class="fa fa-times-circle toggle-button-no"]';
+  afterCheckedManagementView = '(//div[@col-id="ViewEnum"])[2]//span[@class="fa fa-check-circle toggle-button-yes"]';
+  afterUncheckedManagementEdit = '(//div[@col-id="EditEnum"])[2]//span[@class="fa fa-times-circle toggle-button-no"]';
+  afterCheckedManagementEdit = '(//div[@col-id="EditEnum"])[2]//span[@class="fa fa-check-circle toggle-button-yes"]';
+  arrowStartTime = '(//*[@id="project-starttime"]//*[@class="ngx-timepicker__control--first"]//*[@class="ngx-timepicker-control__arrow"])[1]';
+  arrowEndTime = '(//*[@id="project-endtime"]//*[@class="ngx-timepicker__control--first"]//*[@class="ngx-timepicker-control__arrow"])[1]';
+  clickOnCalanderBtn = '[aria-label="Open calendar"]';
+  selProjectFeature = '[id="project-features"]';
+  addProjectFeatureTOCmmms = '//div[text() =  "CMMS"]';
+  projectSelectALL = '(//div[text() =  "Select All"])[2]';
+  projectUnselectALL = '(//div[text() =  "UnSelect All"])';
+  clickOnCurrentDate = '[class="mat-calendar-body-cell-content mat-focus-indicator mat-calendar-body-today"]'
+  selectRightTik = '//*[@class="cdk-overlay-pane mat-datepicker-popup"]//*[contains(text(),"done")]';
+  clickOnDisableCalenderDate = '(//*[@class="mat-calendar-body-cell mat-calendar-body-disabled ng-star-inserted"])[1]';
+  clickPreviousMonth = '[aria-label="Previous month"]';
+  selectPreviousMonthDate = '//*[contains(@aria-label, "11")]';
+  clickNextMonth = '[aria-label="Next month"]';
+
+
+
+  async verifyUserNotAbleToSelectFutureDate() {
+    await this.clickEditIcon();
+    var expectTedValue = "mat-calendar-body-cell mat-calendar-body-disabled ng-star-inserted";
+    var gettingClassOfDisableDate = await this.clickOnCalander();
+    //assertion
+    expect(expectTedValue).toEqual(gettingClassOfDisableDate);
+    await this.saveEditedData();
+
+  }
+
+  async clickOnCalander() {
+    await $(this.clickOnCalanderBtn).click();
+    await $(this.clickPreviousMonth).click();
+    await $(this.selectPreviousMonthDate).click();
+    await $(this.selectRightTik).click();
+    browser.pause(2000);
+    await $(this.clickOnCalanderBtn).click();
+    await $(this.clickNextMonth).click();
+    await $(this.clickOnCurrentDate).click();
+    const gettingClassOfDiableCalanderDate = await $(this.clickOnDisableCalenderDate).getAttribute('class');
+    Logger.info("theGetData", gettingClassOfDiableCalanderDate);
+    await $(this.selectRightTik).click();
+    return gettingClassOfDiableCalanderDate;
+  }
+
+  async selectAndUnselectFeature() {
+    await this.clickEditIcon();    
+    var data = await this.setFeatureToCMMS();
+    Logger.info("datacmms", data);
+    await this.filterForCheck(PlantNameData.plantData.projectTiltPlantName);
+    await this.clickEditIcon();
+    var editedData = await $(this.selProjectFeature).getText();
+    editedData = editedData.trim();
+    Logger.info("editedData", editedData);
+    //Assertion
+
+    var unSelectData = await this.resetFeatureToUnSelect();
+    await this.filterForCheck(PlantNameData.plantData.projectTiltPlantName);
+    await this.clickEditIcon();
+    var editedUnSelectedData = await $(this.selProjectFeature).getText();
+    Logger.info("editedUnselct", editedUnSelectedData);
+    //assertion for unselect
+    expect(unSelectData).toEqual(editedUnSelectedData);
+    expect(data).toEqual(editedData);
+
+  }
+
+  async setFeatureToCMMS() {
+    var setCmms = "CMMS";
+    // var defaultt = await $(this.selProjectFeature).getText();
+    await $(this.selProjectFeature).click();
+    await $(this.projectSelectALL).click();
+    browser.pause(3000);
+    await $(this.projectUnselectALL).click();
+    browser.pause(3000);
+    // Logger.info("defauultt", defaultt);
+    await $(this.addProjectFeatureTOCmmms).click();
+    await this.saveEditedData();
+    return setCmms;
+  }
+
+  async resetFeatureToUnSelect() {
+
+    await $(this.selProjectFeature).click();
+    await $(this.projectSelectALL).click();
+    browser.pause(3000);
+    await $(this.projectUnselectALL).click();
+
+    await $(this.selProjectFeature).click();
+    await $(this.selControllerId).click();
+
+    var defaultVal = await $(this.selProjectFeature).getText();
+    await $(this.selProjectFeature).click();
+    await this.saveEditedData();
+    Logger.info("default name is", defaultVal);
+    return defaultVal;
+  }
+
+  async setLongNameNewUser() {
+    var name = "AutomationNewUser";
+    await $(this.selLongName).click();
+    await $(this.selLongName).setValue(name);
+    Logger.info("setLongName");
+    return name;
+  }
+  async setShortNameNewUser() {
+    var name = "newUserAuto";
+    // await $(this.selShortName).click();
+    await $(this.selShortName).setValue(name);
+    Logger.info("setShortName");
+    return name;
+  }
+
+  async verifyUserIsAbleToAddNewUser() {
+    await this.addUser();
+    var initialLongName = await this.setLongNameNewUser();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+    var initialShortName = await this.setShortNameNewUser();
+    var initialProtocol = await this.setProtocolType();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+
+    var initialLatitude = await this.setLatitudeValue();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+
+    var initialLongitude = await this.setLongitudeValue();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+
+    var initialLocation = await this.setPlantLocation();
+
+    var initialCapacity = await this.setCapacity();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+    browser.pause(3000);
+
+
+    var initialAddress = await this.setAddress();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+    browser.pause(3000);
+
+
+    var initialCountry = await this.setCountry();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+    browser.pause(3000);
+
+
+    var initialTimeZone = await this.setTimeJone();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+    browser.pause(3000);
+
+
+    await this.setDomain();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+    browser.pause(3000);
+
+
+    await this.setDataApiUrl();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+    browser.pause(3000);
+
+
+    await this.setDataInterval();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+    browser.pause(3000);
+
+
+    await this.setWeatherSource();
+
+
+
+    await this.setplantControllerID();
+
+
+    browser.pause(3000);
+    await this.setContactPersonName();
+
+    await this.setMobileNo();
+    await this.clickBtnSave();
+    await this.clickBtnOk();
+    browser.pause(3000);
+
+
+
+    var initialEmail = await this.setEmailId();
+    browser.pause(3000);
+
+    await this.saveEditedData();
+    await this.filterForCheck(initialShortName);
+    await $(this.clickOnFirstProjectName).click();
+    await $(this.btnEdit).click();
+    return [initialLongName, initialShortName, initialProtocol, initialLatitude, initialLongitude, initialLocation, initialCapacity, initialAddress, initialCountry, initialTimeZone, initialEmail];
+  }
+
+  async verifyNewUserDataValidation() {
+
+    var initalValues = await this.verifyUserIsAbleToAddNewUser();
+    Logger.info("listis", initalValues);
+
+    var shortName = await this.getShortName();
+    var longName = await this.getLongName();
+    var protocolType = await this.getProtocolType();
+    var latitude = await this.getLatitudeValue();
+    var longitude = await this.getLongitudeValue();
+    var location = await this.getPlantLocation();
+    var address = await this.getAddress();
+    var country = await this.getCountry();
+    var timeZone = await this.getTimeZone();
+    var emailId = await this.getEmailId();
+
+    // //assertion
+    await this.compareAssertionData(initalValues[0], longName);
+    await this.compareAssertionData(initalValues[1], shortName);
+    await this.compareAssertionData(initalValues[2], protocolType);
+    await this.compareAssertionData(initalValues[3], latitude);
+    await this.compareAssertionData(initalValues[4], longitude);
+    await this.compareAssertionData(initalValues[5], location);
+    await this.compareAssertionData(initalValues[7], address);
+    await this.compareAssertionData(initalValues[8], country);
+    await this.compareAssertionData(initalValues[9], timeZone);
+    await this.compareAssertionData(initalValues[10], emailId);
+  }
 
 
   async userIsAbleToSelectAllAndDeselectTheMenus() {
 
     await this.clickEditIcon();
     await $(this.chekboxManagementView).click();
+    await browser.pause(5000);
     let afterUncheckedManagementView = await $(this.afterUncheckedManagementView).isExisting();
     if (afterUncheckedManagementView) {
       Logger.info("Unchecked Management View is Working in a single click");
@@ -168,6 +427,7 @@ class ManagementProjects {
     };
     await browser.pause(5000);
     await $(this.chekboxManagementView).click();
+    await browser.pause(5000);
     let afterCheckedManagementView = await $(this.afterCheckedManagementView).isExisting();
     if (afterCheckedManagementView) {
       Logger.info("Checked Management View is Working in a single click");
@@ -179,6 +439,7 @@ class ManagementProjects {
     };
     await browser.pause(5000);
     await $(this.chekboxManagementEdit).click();
+    await browser.pause(5000);
     let afterCheckedManagementEdit = await $(this.afterCheckedManagementEdit).isExisting();
     if (afterCheckedManagementEdit) {
       Logger.info("Checked Management Edit is Working in a single click");
@@ -190,6 +451,7 @@ class ManagementProjects {
     };
     await browser.pause(5000);
     await $(this.chekboxManagementEdit).click();
+    await browser.pause(5000);
     let afterUncheckedManagementEdit = await $(this.afterUncheckedManagementEdit).isExisting();
     if (afterUncheckedManagementEdit) {
       Logger.info("Unchecked Management Edit is Working in a single click");
@@ -202,9 +464,139 @@ class ManagementProjects {
     await browser.pause(5000);
     // After Assertion Checked Again otherWise another test cases not working properly
     await $(this.chekboxManagementEdit).click();
+    await browser.pause(5000);
 
   };
 
+  async projectCapacityListedInLandingPage() {
+
+    await this.clickEditIcon();
+    let capacityFromProjectDetails = await $(this.selCapacityId).getValue();
+    await this.clickBtnSave();
+    await this.clickBtnYes();
+    await browser.pause(5000);
+    await this.clickBtnOk();
+    Logger.info("Capacity From Project Details:", capacityFromProjectDetails);
+    await $(this.btnMenu).click();
+    await browser.pause(5000);
+    await $(this.btnFilter).click();
+    await browser.pause(5000);
+    let item = await this.setPlantName(PlantNameData.plantData.dashboardPlantName);
+    await $(this.textFieldFilter).setValue(item);
+    await browser.pause(5000);
+    await $(this.btnFilter).click();
+    await browser.pause(5000);
+    await $(this.firstCellCapacity).click();
+    await browser.pause(5000);
+    let capacity = await $(this.firstCellCapacity).getText();
+    let capacityFromProjectsMaster = capacity.substr(0, 3)
+    Logger.info("Capacity From Project Master:", capacityFromProjectsMaster);
+    expect(capacityFromProjectDetails.includes(capacityFromProjectsMaster)).toBe(true);
+
+  };
+
+  async clickViewIcon() {
+    await $(this.iconView).click();
+  };
+
+  async clickBtnSave() {
+    await $(this.btnSave).click();
+  };
+
+  async clickBtnYes() {
+    await $(this.btnYes).click();
+  };
+
+  async clickBtnOk() {
+    await $(this.btnOk).click();
+  };
+
+  async chartsGettingPlottedBasedOnOperationalCurrentStartAndEndTime() {
+
+    await this.clickViewIcon();
+    await browser.pause(5000);
+    await this.clickEditIcon();
+    let startTimeProjectSetting = await $(this.divStartTime).getValue();
+    Logger.info("Start Time Project Setting:", startTimeProjectSetting);
+
+    let endTimeProjectSetting = await $(this.divEndTime).getValue();
+    Logger.info("Start Time Project Setting:", endTimeProjectSetting);
+    await this.clickBtnSave();
+    await this.clickBtnYes();
+    await browser.pause(5000);
+    await this.clickBtnOk();
+    await $(this.btnHome).click();
+    await browser.pause(5000);
+    await HomePage.selectPlantName(PlantNameData.plantData.dashboardPlantName);
+
+    let TechnicalPageXAxisStartAndEndTime = await TechnicalPage.getCurrentStartAndEndTimeFromXaxis();
+
+    expect(TechnicalPageXAxisStartAndEndTime[0].includes(startTimeProjectSetting)).toBe(true);
+    expect(TechnicalPageXAxisStartAndEndTime[1].includes(endTimeProjectSetting)).toBe(true);
+
+  };
+
+  async chartsGettingPlottedBasedOnOperationalUpdatedStartAndEndTime() {
+    await this.gotoProjects();
+    await this.selectSpecificPlantName(PlantNameData.plantData.specificPlantName);
+    await this.clickEditIcon();
+    await browser.pause(5000);
+    await $(this.arrowStartTime).click();
+    let UpdatedStartTimeProjectSetting = await $(this.divStartTime).getValue();
+    Logger.info("Updated Start Time Project Setting:", UpdatedStartTimeProjectSetting);
+    await $(this.arrowEndTime).click();
+    let UpdatedendTimeProjectSetting = await $(this.divEndTime).getValue();
+    Logger.info("Updated Start Time Project Setting:", UpdatedendTimeProjectSetting);
+    await this.clickBtnSave();
+    await this.clickBtnYes();
+    await browser.pause(5000);
+    await this.clickBtnOk();
+    await HomePage.logoutSession();
+    await LoginPage.loginWithValidCredentials();
+    await HomePage.selectPlantName(PlantNameData.plantData.dashboardPlantName);
+    await browser.pause(5000);
+
+    let TechnicalPageXAxisUpdatedStartAndEndTime = await TechnicalPage.getUpdatedStartAndEndTimeFromXaxis();
+
+    expect(TechnicalPageXAxisUpdatedStartAndEndTime[0].includes(UpdatedStartTimeProjectSetting)).toBe(true);
+    expect(TechnicalPageXAxisUpdatedStartAndEndTime[1].includes(UpdatedendTimeProjectSetting)).toBe(true);
+  };
+
+  async verifyCountryLocation() {
+    await $(this.clickOnFirstProjectName).click();
+    await this.clickEditIcon();
+    var initialCountry = await this.getCountry();
+    Logger.info("countrry", initialCountry);
+    var defaultAddress = await this.getAddress();
+    Logger.info("countrry", initialCountry, defaultAddress);
+    await $(this.clickHome).click();
+    await $(this.clickAllButton).click();
+    await $(this.clickGreece).click();
+    var initailLocation = await $(this.getFilteredLocation).getText();
+    Logger.info("locaation", initailLocation);
+    await this.gotoProjects();
+    await this.filterForCheck(PlantNameData.plantData.projectNameForVerifyCounrty);
+    await $(this.clickOnFirstProjectName).click();
+    await this.clickEditIcon();
+    await this.setCountry();
+    var initialbrirtishLocation = await this.setBritishLocation();
+    await this.saveEditedData();
+    await browser.pause(5000);
+    await HomePage.logoutSession();
+    await LoginPage.loginWithValidCredentials();
+    await this.filterForCheck(PlantNameData.plantData.projectNameForVerifyCounrty);
+    var editedAddress = await $(this.getFilteredLocation).getText();
+    // //asseertion
+    expect(editedAddress).toEqual(initialbrirtishLocation);
+    //setting default country
+    await this.gotoProjects();
+    await this.filterForCheck(PlantNameData.plantData.projectNameForVerifyCounrty);
+    await $(this.clickOnFirstProjectName).click();
+    await this.clickEditIcon();
+    await this.setDefaultCountry();
+    await this.setDeafultPlantLocation(defaultAddress);
+    await this.saveEditedData();
+  }
 
 
   async selectSpecificPlantName(specificPlantName) {
@@ -381,7 +773,7 @@ class ManagementProjects {
     var resAddress = await $(this.chkDisableAddress).isDisplayed();
     await $(this.selCountryName).click();
     var resCountry = await $(this.chkDisableCountryName).isDisplayed();
-    await $(this.selTimeJone).click();
+    await $(this.selTimeZone).click();
     var resTimeJone = await $(this.chkDisableTimeJone).isDisplayed();
     await $(this.selDomain).click();
     var resDomain = await $(this.chkDisableDomain).isDisplayed();
@@ -422,12 +814,8 @@ class ManagementProjects {
     Logger.info("longName", longName);
     await $(this.selectShortNameEdit).click();
     await $(this.btnEditONProject).click();
-
     return [srno, shortName, longName];
-
   };
-
-
 
   async createaNewProject() {
     await this.addUser();
@@ -435,6 +823,88 @@ class ManagementProjects {
     var shortName = await this.setShortName();
     Logger.info(shortName);
   }
+
+  async setMountingTypeToFiexedTilt() {
+    var mounting = 'Fixed Tilt';
+    await $(this.selMountingType).click();
+    await $(this.editMountingType).click();
+    browser.pause(3000);
+    return mounting;
+  }
+  async setMountingTypeSeasonalTilt() {
+    var mounting = 'Seasonal Tilt';
+    await $(this.selMountingType).click();
+    await $(this.editMountingTypeToSeasonalTilt).click();
+    browser.pause(3000);
+    return mounting;
+  }
+  async setMountingTypeSingleAxisTracker() {
+    var mounting = 'Single Axis Tracker';
+    await $(this.selMountingType).click();
+    await $(this.editMountingToSingleAxisTracker).click();
+    browser.pause(3000);
+    return mounting;
+  }
+
+  async setMountingTypeDualAxisTracker() {
+    var mounting = 'Dual Axis Tracker';
+    await $(this.selMountingType).click();
+    await $(this.editMountingToDualAxisTracker).click();
+    browser.pause(3000);
+    return mounting;
+  }
+
+
+  async createNewProjectToVerifyMountingType() {
+    await this.addUser();
+    var shortName = await this.setShortName();
+    await this.setLongName();
+    await this.setProtocolType();
+    await this.setLatitudeValue();
+    await this.setLongitudeValue();
+    await this.setPlantLocation();
+    await this.setCapacity();
+    await this.setAddress();
+    await this.setCountry();
+    await this.setTimeJone();
+    await $(this.selDomain).click();
+    await $(this.edtDomainTOsolar).click();
+    //Checking the mentioned items are listed
+    await this.setMountingTypeSeasonalTilt();
+    await this.setMountingTypeSingleAxisTracker();
+    await this.setMountingTypeToFiexedTilt();
+    var initalMounting = await this.setMountingTypeDualAxisTracker();
+    await this.setDataApiUrl();
+    browser.pause(5000);
+    await this.setDataInterval();
+    await this.setWeatherSource();
+    browser.pause(5000);
+    await this.setplantControllerID();
+    await this.setContactPersonName();
+    await this.setMobileNo();
+    await this.setEmailId();
+    browser.pause(5000);
+    await this.saveEditedData();
+
+
+
+    Logger.info("names are", shortName, "----", initalMounting);
+    await HomePage.logoutSession();
+    await LoginPage.loginWithValidCredentials();
+    await this.gotoProjects();
+    await this.filterForCheck(shortName);
+    await $(this.clickOnFirstProjectName).click();
+    await this.clickEditIcon();
+    var getMountingType = await $(this.selMountingType).getText();
+    Logger.info("mountiiing", getMountingType);
+    //assertion
+    expect(getMountingType).toEqual(initalMounting);
+
+  }
+
+
+
+
 
   async verifySeasonalAndTiltAngle() {
     var domainSolar = "Solar PV Rooftop";
@@ -448,9 +918,40 @@ class ManagementProjects {
       await $(this.editMountingType).click();
       await $(this.btnSave).click();
       await $(this.btnOkUnderSave).click();
+      await $(this.selMountingType).click();
+      await $(this.editMountingTypeToSeasonalTilt).click();
+      await $(this.btnSave).click();
+      await $(this.btnOkUnderSave).click();
       await $(this.selTiltAngle).click();
       await $(this.selTiltAngle).setValue(-10);
       await this.saveEditedData();
+    } else {
+      var mounting = await (await this.getMountingType()).trim();
+      Logger.info("mountting", mounting);
+      if (mounting != "Fixed Tilt" || mounting == "Seasonal Tilt") {
+        browser.pause(4000);
+        await $(this.selMountingType).click();
+        await $(this.edtDomain).click();
+        await $(this.edtDomainTOsolar).click();
+        await $(this.editMountingType).click();
+        await $(this.btnSave).click();
+        await $(this.btnOkUnderSave).click();
+        await $(this.selMountingType).click();
+        await $(this.editMountingTypeToSeasonalTilt).click();
+        await $(this.btnSave).click();
+        await $(this.btnOkUnderSave).click();
+        await $(this.selTiltAngle).click();
+        await $(this.selTiltAngle).setValue(12);
+        await this.saveEditedData();
+        Logger.info("testcasep");
+
+      }
+      // else {
+      //   await $(this.selDomain).click();
+      //   await $(this.edtDomain).click();
+      //   await $(this.edtDomainTOsolar).click();
+
+      // }
     }
   }
 
@@ -803,6 +1304,22 @@ class ManagementProjects {
     return address;
   }
 
+  async setBritishLocation() {
+    var address = "London";
+    await $(this.selPlantLocation).click();
+    await $(this.selPlantLocation).setValue(address);
+    Logger.info("setAddress");
+    return address;
+  }
+
+  //selPlantLocation
+
+  async setDeafultPlantLocation(location) {
+    await $(this.selPlantLocation).click();
+    await $(this.selAddressId).setValue(location);
+    Logger.info("setAddress");
+  }
+
   async editAddress() {
     var address = "1 Mumbai";
     await $(this.selAddressId).click();
@@ -810,6 +1327,8 @@ class ManagementProjects {
     Logger.info("editAddress", address);
     return address;
   }
+
+
 
 
   async getAddress() {
@@ -820,12 +1339,22 @@ class ManagementProjects {
   }
 
   async setCountry() {
-    var country = "Andorra";
+    var country = "British Indian Ocean Territory";
     await $(this.selCountryName).click();
     await $(this.addCountry).click()
     Logger.info("setCountry");
     return country;
   }
+
+
+
+  async setDefaultCountry() {
+    await $(this.selCountryName).click();
+    await $(this.addDefaultCountry).click();
+    Logger.info("setCountry");
+  }
+
+
 
   async editCountry() {
     var country = "Angola";
@@ -848,7 +1377,7 @@ class ManagementProjects {
 
   async setTimeJone() {
     var timeJone = "(UTC-12:00)";
-    await $(this.selTimeJone).click();
+    await $(this.selTimeZone).click();
     await $(this.addTimeJone).click();
     Logger.info("setTimeJone");
     return timeJone;
@@ -856,13 +1385,13 @@ class ManagementProjects {
 
   async editTimeZone() {
     var editTimeZone = "(UTC-11:00) Coordinated Universal Time-11";
-    var getTime = await this.getTimeJone();
+    var getTime = await this.getTimeZone();
     Logger.info("getTime", getTime)
     if (editTimeZone == getTime) {
       return editTimeZone;
 
     } else {
-      await $(this.selTimeJone).click();
+      await $(this.selTimeZone).click();
       await $(this.edtTimeJone).click();
       // Logger.info("editTimeZone", timeJone);
       return editTimeZone;
@@ -870,9 +1399,9 @@ class ManagementProjects {
   }
 
 
-  async getTimeJone() {
-    var timeJone = await $(this.selTimeJone).getText();
-    Logger.info("getTimeJone:-", timeJone);
+  async getTimeZone() {
+    var timeJone = await $(this.selTimeZone).getText();
+    Logger.info("getTimeZone:-", timeJone);
     return timeJone;
   }
 
@@ -883,6 +1412,25 @@ class ManagementProjects {
     Logger.info("setDomain");
     return domain;
   }
+
+  async setDataApiUrl() {
+    var url = "https://ftpstore.prescinto.com/";
+    await $(this.selDataApiUrl).click();
+    await $(this.addDataApi).click();
+    Logger.info("setDataApiUrl");
+    return url;
+  }
+
+  async setWeatherSource() {
+    var source = "https://ftpstore.prescinto.com/";
+    await $(this.selWeatherSource).click();
+    await $(this.addWetherSource).click();
+    Logger.info("setWeatherSource");
+    return source;
+  }
+
+
+
 
   async editDomain() {
     var domain = "Battery Thermal Management System";
@@ -1081,7 +1629,7 @@ class ManagementProjects {
     await $(this.inputProjectCodeForCheck).click();
     await browser.pause(2000);
     await $(this.shortForFilter).click();
-    await browser.pause(2000);
+    await browser.pause(4000);
   }
 
   async compareAssertionData(beforeEdit, afterEdit) {
