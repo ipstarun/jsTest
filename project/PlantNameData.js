@@ -35,6 +35,11 @@ const PlantNameData = {
     projectNameForVerifyCounrty: "GR.SUNS.VATH",
     projectTiltVerify: 'anderson',
     existingProjectPlantName: "autotest",
+
+
+
+    projectActiveDeactivePlant: "Fedral",
+    projectDeActivePlant: "Fintech",
   },
 }
 export default PlantNameData;

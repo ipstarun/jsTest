@@ -21,46 +21,6 @@ class ManagementProjects {
   btnLogout = "#logout-id > svg > path";
   btnYes = "*//app-confirm-dialog//button[1]";
   chkDataValidation = '//div[text()="Data Validation"]';
-
-
-
-
-  // Functions
-  // Click on 'Management' part from the navigation bar and then go to projects section
-  async gotoProjects() {
-    await browser.pause(5000); // It is working by the hardcode method only. It won't work, if functions are used.
-    await $(this.btnManagement).moveTo();
-    await $(this.btnProjects).click();
-  }
-
-  //First select plant name, Edit,Go to features ddl, then uncheck String Analysis Then click on save
-  async toggleStringAnalysis() {
-    await $(this.dgdSelectVeltoor120).click();
-    await $(this.btnEdit).click();
-    await $(this.ddlFeatures).click();
-    await $(this.chkStringAnalysis).click();
-    await $(this.btnSave).click();
-    await $(this.btnYes).click();
-    await $(this.btnYes).click();
-  }
-  // click on logout button
-  async logout() {
-    await $(this.btnLogout).click();
-    await $(this.btnYes).click();
-  }
-  async toggleDataValidation() {
-    await $(this.dgdSelectVeltoor120).click();
-    await $(this.btnEdit).click();
-    await $(this.ddlFeatures).click();
-    await $(this.chkDataValidation).click();
-    await $(this.btnSave).click();
-    await $(this.btnYes).click();
-    await $(this.btnYes).click();
-  }
-
-
-
-
   addBtn = '//*[@id="Add-Id"]';
   btnView = '//*[@id="View-Id"]';
   management = '(//*[@class="menu-scroll"])[2]';//'//*[@id="menuWrapper"]/*[@id="Management"]';//'//span[@id="Management"]';
@@ -196,7 +156,116 @@ class ManagementProjects {
   clickPreviousMonth = '[aria-label="Previous month"]';
   selectPreviousMonthDate = '//*[contains(@aria-label, "11")]';
   clickNextMonth = '[aria-label="Next month"]';
+  projectActiveAndDeActive = '[id="project-activeId"]';
+  clickToActiveRightTick = 'class="ng-untouched ng-pristine ng-valid"';
+  clickToDeActiveRightTick = 'class="ng-touched ng-dirty ng-valid"';
+  deActiveData = '[ref="eBodyViewport"]';
 
+
+  async verifyUserActiveAndListed() {
+    await $(this.clickOnFirstProjectName).click();
+    await this.clickEditIcon();
+    var activeUser = "ng-untouched ng-pristine ng-valid";
+    var classData = await $(this.projectActiveAndDeActive).getAttribute('class');
+    Logger.info("the deta is", classData);
+
+    if (activeUser == classData) {
+      var expectedName = "Fedral Power";
+      Logger.info("active user");
+      await $(this.btnHome).click();
+      await this.filterForCheck(PlantNameData.plantData.projectActiveDeactivePlant);
+      var getName = await $(this.firstCellShortName).getText();
+      Logger.info("the first name", getName);
+      await this.gotoProjects();
+      await this.filterForCheck(PlantNameData.plantData.projectActiveDeactivePlant);
+      await $(this.clickOnFirstProjectName).click();
+      await this.clickEditIcon();
+      await $(this.projectActiveAndDeActive).click();
+      await this.saveEditedData();
+      await HomePage.logoutSession();
+      await LoginPage.loginWithValidCredentials();
+
+
+      await this.filterForCheck(PlantNameData.plantData.projectActiveDeactivePlant);
+      var deActiveProjectNameValue = "";
+
+      var getDactiveName = await $(this.deActiveData).getText();
+      Logger.info("the deactive name", getDactiveName);
+      //Assertion
+      expect(expectedName).toEqual(getName);
+      expect(getDactiveName).toEqual(deActiveProjectNameValue);
+      await this.gotoProjects();
+      await this.filterForCheck(PlantNameData.plantData.projectActiveDeactivePlant);
+      await $(this.clickOnFirstProjectName).click();
+      await this.clickEditIcon();
+      await $(this.projectActiveAndDeActive).click();
+      await this.saveEditedData();
+    }
+  }
+
+
+  async verifyDeactiveUserActiveAndListed() {
+
+    var fetchName = await $(this.deActiveData).getText();
+    Logger.info("the valis", fetchName);
+
+    if (fetchName == "") {
+      await this.gotoProjects();
+      await this.filterForCheck(PlantNameData.plantData.projectDeActivePlant);
+      await $(this.clickOnFirstProjectName).click();
+      await this.clickEditIcon();
+      await $(this.projectActiveAndDeActive).click();
+      await this.saveEditedData();
+      await HomePage.logoutSession();
+      await LoginPage.loginWithValidCredentials();
+      await this.filterForCheck(PlantNameData.plantData.projectDeActivePlant);
+      var expectedName = "Fintech Power LTD";
+      var getName = await $(this.firstCellShortName).getText();
+      //Assertion
+      expect(expectedName).toEqual(getName);
+      await this.gotoProjects();
+      await this.filterForCheck(PlantNameData.plantData.projectDeActivePlant);
+      await $(this.clickOnFirstProjectName).click();
+      await this.clickEditIcon();
+      await $(this.projectActiveAndDeActive).click();
+      await this.saveEditedData();
+
+    } else {
+      Logger.info("getting errorr value");
+    }
+  }
+  // Functions
+  // Click on 'Management' part from the navigation bar and then go to projects section
+  async gotoProjects() {
+    await browser.pause(5000); // It is working by the hardcode method only. It won't work, if functions are used.
+    await $(this.btnManagement).moveTo();
+    await $(this.btnProjects).click();
+  }
+
+  //First select plant name, Edit,Go to features ddl, then uncheck String Analysis Then click on save
+  async toggleStringAnalysis() {
+    await $(this.dgdSelectVeltoor120).click();
+    await $(this.btnEdit).click();
+    await $(this.ddlFeatures).click();
+    await $(this.chkStringAnalysis).click();
+    await $(this.btnSave).click();
+    await $(this.btnYes).click();
+    await $(this.btnYes).click();
+  }
+  // click on logout button
+  async logout() {
+    await $(this.btnLogout).click();
+    await $(this.btnYes).click();
+  }
+  async toggleDataValidation() {
+    await $(this.dgdSelectVeltoor120).click();
+    await $(this.btnEdit).click();
+    await $(this.ddlFeatures).click();
+    await $(this.chkDataValidation).click();
+    await $(this.btnSave).click();
+    await $(this.btnYes).click();
+    await $(this.btnYes).click();
+  }
 
 
   async verifyUserNotAbleToSelectFutureDate() {
@@ -225,7 +294,7 @@ class ManagementProjects {
   }
 
   async selectAndUnselectFeature() {
-    await this.clickEditIcon();    
+    await this.clickEditIcon();
     var data = await this.setFeatureToCMMS();
     Logger.info("datacmms", data);
     await this.filterForCheck(PlantNameData.plantData.projectTiltPlantName);

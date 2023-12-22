@@ -178,7 +178,6 @@ describe("Projects Test cases.", () => {
           await ManagementProjectsPage.gotoProjects();
           await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectTiltPlantName);//for specific user
           await ManagementProjectsPage.verifyUserNotAbleToSelectFutureDate();
-
      });
 
      it('TC_Projects_22 :Verify whether the user is able to select/unselect the features at project level and the same is getting reflected for the logged in users ', async () => {
@@ -190,9 +189,20 @@ describe("Projects Test cases.", () => {
      });
 
 
+     it('TC_Projects_24[1] :Verify whether the project is shown as active and listed in landing page only when the active checkbox is enabled and vice versa ', async () => {
+          await LoginPage.loginWithValidCredentials();
+          await ManagementProjectsPage.gotoProjects();
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectActiveDeactivePlant);//for specific user
+          await ManagementProjectsPage.verifyUserActiveAndListed();
+          await HomePage.logoutSession();
+     });
 
-
-
+     it('TC_Projects_24[2] :Verify whether the project is shown as active and listed in landing page only when the active checkbox is enabled and vice versa ', async () => {
+          await LoginPage.loginWithValidCredentials();
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectDeActivePlant);//for specific user
+          await ManagementProjectsPage.verifyDeactiveUserActiveAndListed();
+          await HomePage.logoutSession();
+     });
 
 
      it('TC_Projects_29 :Verify whether the user is able to add/remove Maintenance engg,site in charge or safety in charge', async () => {
