@@ -6,9 +6,6 @@ import HomePage from '../Pages/HomePage.js';
 import LoginPage from '../Pages/LoginPage.js';
 import TechnicalPage from "./TechnicalPage.js";
 
-
-
-
 class ManagementProjects {
   // Selectors
   btnManagement = '//span[@id="Management"]';
@@ -48,7 +45,6 @@ class ManagementProjects {
   chkDisableCountryName = '//*[@id="project-countryId"]//*[@disabled]';
   addCountry = '//*[contains(text(),"India")]';
   addDefaultCountry = '//*[contains(text(),"Greece")]';
-
   edtCountry = '//*[contains(text(),"Angola")]';
   selTimeZone = '[id="project-timezoneId"]';
   chkDisableTimeJone = '//*[@id="project-timezoneId"]//*[@disabled]';
@@ -60,10 +56,7 @@ class ManagementProjects {
   editMountingTypeToSeasonalTilt = '//*[contains(text(),"Seasonal Tilt")]';
   editMountingToSingleAxisTracker = '//*[contains(text(),"Single Axis Tracker")]';
   editMountingToDualAxisTracker = '//*[contains(text(),"Dual Axis Tracker")]';
-
-
-  checkErrorMesasge = '[class="error-msg ng-star-inserted"]'
-
+  checkErrorMesasge = '[class="error-msg ng-star-inserted"]';
   selTiltAngle = '[id="project-tiltAngle"]';
   chkDisableDomain = '//*[@id="project-domainId"]//*[@disabled]';
   addDomain = '//*[contains(text(),"Battery Management System")]';
@@ -94,7 +87,6 @@ class ManagementProjects {
   clickAllButton = '[id="all-button"]';
   clickGreece = '(//*[@id="in-button"])[2]';
   getFilteredLocation = '//*[@ref="eContainer"]//*[@col-id="Location"]';
-
   btnApply = '[id="applyButton"]';
   divMaintainanceEngineerList = '[name="MaintainanceEngineerList"]';
   divSiteEngineerList = '[name="SiteEngineerList"]'
@@ -116,9 +108,6 @@ class ManagementProjects {
   addDataApi = '//*[contains(text(),"https://ftpstore.prescinto.com/")]';
   selWeatherSource = '[id="project-weatherSourceId"]';
   addWetherSource = '//*[contains(text(),"AERIS")]';
-
-  //prj
-  // 
   iconView = '[id="View-Id"]';
   divStartTime = '//*[@id="project-starttime"]//div[@class="ngx-timepicker-control"]/*[@placeholder="HH"]';
   divEndTime = '//*[@id="project-endtime"]//div[@class="ngx-timepicker-control"]/*[@placeholder="HH"]';
@@ -162,16 +151,23 @@ class ManagementProjects {
   deActiveData = '[ref="eBodyViewport"]';
 
 
+
+
+  async clickOnFirstName() {
+    await $(this.clickOnFirstProjectName).click();
+  }
+
+
   async verifyUserActiveAndListed() {
     await $(this.clickOnFirstProjectName).click();
     await this.clickEditIcon();
-    var activeUser = "ng-untouched ng-pristine ng-valid";
+    var activeUser = PlantNameData.plantData.projectActiveUserClass;
     var classData = await $(this.projectActiveAndDeActive).getAttribute('class');
     Logger.info("the deta is", classData);
 
     if (activeUser == classData) {
-      var expectedName = "Fedral Power";
-      Logger.info("active user");
+      var expectedName = PlantNameData.plantData.projectActiveUserExpectedName;
+
       await $(this.btnHome).click();
       await this.filterForCheck(PlantNameData.plantData.projectActiveDeactivePlant);
       var getName = await $(this.firstCellShortName).getText();
@@ -184,7 +180,6 @@ class ManagementProjects {
       await this.saveEditedData();
       await HomePage.logoutSession();
       await LoginPage.loginWithValidCredentials();
-
 
       await this.filterForCheck(PlantNameData.plantData.projectActiveDeactivePlant);
       var deActiveProjectNameValue = "";
@@ -219,7 +214,8 @@ class ManagementProjects {
       await HomePage.logoutSession();
       await LoginPage.loginWithValidCredentials();
       await this.filterForCheck(PlantNameData.plantData.projectDeActivePlant);
-      var expectedName = "Fintech Power LTD";
+
+      var expectedName = PlantNameData.plantData.projectDeActiveUserExpectedName;
       var getName = await $(this.firstCellShortName).getText();
       //Assertion
       expect(expectedName).toEqual(getName);
@@ -234,15 +230,13 @@ class ManagementProjects {
       Logger.info("getting errorr value");
     }
   }
-  // Functions
-  // Click on 'Management' part from the navigation bar and then go to projects section
+
   async gotoProjects() {
     await browser.pause(5000); // It is working by the hardcode method only. It won't work, if functions are used.
     await $(this.btnManagement).moveTo();
     await $(this.btnProjects).click();
   }
 
-  //First select plant name, Edit,Go to features ddl, then uncheck String Analysis Then click on save
   async toggleStringAnalysis() {
     await $(this.dgdSelectVeltoor120).click();
     await $(this.btnEdit).click();
@@ -270,7 +264,8 @@ class ManagementProjects {
 
   async verifyUserNotAbleToSelectFutureDate() {
     await this.clickEditIcon();
-    var expectTedValue = "mat-calendar-body-cell mat-calendar-body-disabled ng-star-inserted";
+
+    var expectTedValue = PlantNameData.plantData.projectExpectedClassForFutureDate;
     var gettingClassOfDisableDate = await this.clickOnCalander();
     //assertion
     expect(expectTedValue).toEqual(gettingClassOfDisableDate);
@@ -303,7 +298,6 @@ class ManagementProjects {
     editedData = editedData.trim();
     Logger.info("editedData", editedData);
     //Assertion
-
     var unSelectData = await this.resetFeatureToUnSelect();
     await this.filterForCheck(PlantNameData.plantData.projectTiltPlantName);
     await this.clickEditIcon();
@@ -316,14 +310,15 @@ class ManagementProjects {
   }
 
   async setFeatureToCMMS() {
-    var setCmms = "CMMS";
+
+    var setCmms = PlantNameData.plantData.setProjecrFeatureToCmms;
     // var defaultt = await $(this.selProjectFeature).getText();
     await $(this.selProjectFeature).click();
     await $(this.projectSelectALL).click();
     browser.pause(3000);
     await $(this.projectUnselectALL).click();
     browser.pause(3000);
-    // Logger.info("defauultt", defaultt);
+
     await $(this.addProjectFeatureTOCmmms).click();
     await this.saveEditedData();
     return setCmms;
@@ -347,14 +342,15 @@ class ManagementProjects {
   }
 
   async setLongNameNewUser() {
-    var name = "AutomationNewUser";
+
+    var name = PlantNameData.plantData.setProjectLongName;
     await $(this.selLongName).click();
     await $(this.selLongName).setValue(name);
     Logger.info("setLongName");
     return name;
   }
   async setShortNameNewUser() {
-    var name = "newUserAuto";
+    var name = PlantNameData.plantData.setProjectShortName;
     // await $(this.selShortName).click();
     await $(this.selShortName).setValue(name);
     Logger.info("setShortName");
@@ -363,6 +359,7 @@ class ManagementProjects {
 
   async verifyUserIsAbleToAddNewUser() {
     await this.addUser();
+
     var initialLongName = await this.setLongNameNewUser();
     await this.clickBtnSave();
     await this.clickBtnOk();
@@ -424,9 +421,6 @@ class ManagementProjects {
 
 
     await this.setWeatherSource();
-
-
-
     await this.setplantControllerID();
 
 
@@ -452,9 +446,10 @@ class ManagementProjects {
 
   async verifyNewUserDataValidation() {
 
+    //creating new user
     var initalValues = await this.verifyUserIsAbleToAddNewUser();
-    Logger.info("listis", initalValues);
 
+    Logger.info("listis", initalValues);
     var shortName = await this.getShortName();
     var longName = await this.getLongName();
     var protocolType = await this.getProtocolType();
@@ -538,7 +533,6 @@ class ManagementProjects {
   };
 
   async projectCapacityListedInLandingPage() {
-
     await this.clickEditIcon();
     let capacityFromProjectDetails = await $(this.selCapacityId).getValue();
     await this.clickBtnSave();
@@ -581,7 +575,6 @@ class ManagementProjects {
   };
 
   async chartsGettingPlottedBasedOnOperationalCurrentStartAndEndTime() {
-
     await this.clickViewIcon();
     await browser.pause(5000);
     await this.clickEditIcon();
@@ -599,7 +592,6 @@ class ManagementProjects {
     await HomePage.selectPlantName(PlantNameData.plantData.dashboardPlantName);
 
     let TechnicalPageXAxisStartAndEndTime = await TechnicalPage.getCurrentStartAndEndTimeFromXaxis();
-
     expect(TechnicalPageXAxisStartAndEndTime[0].includes(startTimeProjectSetting)).toBe(true);
     expect(TechnicalPageXAxisStartAndEndTime[1].includes(endTimeProjectSetting)).toBe(true);
 
@@ -894,21 +886,22 @@ class ManagementProjects {
   }
 
   async setMountingTypeToFiexedTilt() {
-    var mounting = 'Fixed Tilt';
+
+    var mounting = PlantNameData.plantData.setProjectMountingTypeToFixedTilt;
     await $(this.selMountingType).click();
     await $(this.editMountingType).click();
     browser.pause(3000);
     return mounting;
   }
   async setMountingTypeSeasonalTilt() {
-    var mounting = 'Seasonal Tilt';
+    var mounting = PlantNameData.plantData.setProjectMountingTypeToSeasonalTilt;
     await $(this.selMountingType).click();
     await $(this.editMountingTypeToSeasonalTilt).click();
     browser.pause(3000);
     return mounting;
   }
   async setMountingTypeSingleAxisTracker() {
-    var mounting = 'Single Axis Tracker';
+    var mounting = PlantNameData.plantData.setProjectMountingTypeToSingleAxisTracker;
     await $(this.selMountingType).click();
     await $(this.editMountingToSingleAxisTracker).click();
     browser.pause(3000);
@@ -916,7 +909,7 @@ class ManagementProjects {
   }
 
   async setMountingTypeDualAxisTracker() {
-    var mounting = 'Dual Axis Tracker';
+    var mounting = PlantNameData.plantData.setProjectMountingTypeToDualAxisTracker;
     await $(this.selMountingType).click();
     await $(this.editMountingToDualAxisTracker).click();
     browser.pause(3000);
@@ -954,9 +947,6 @@ class ManagementProjects {
     await this.setEmailId();
     browser.pause(5000);
     await this.saveEditedData();
-
-
-
     Logger.info("names are", shortName, "----", initalMounting);
     await HomePage.logoutSession();
     await LoginPage.loginWithValidCredentials();
@@ -971,15 +961,10 @@ class ManagementProjects {
 
   }
 
-
-
-
-
   async verifySeasonalAndTiltAngle() {
-    var domainSolar = "Solar PV Rooftop";
+    var domainSolar = PlantNameData.plantData.selectDomainToSolarPvRooftop;
     var domain = await this.getDomain();
     Logger.info("domainnn", domain);
-
     if (domain != domainSolar) {
       await $(this.selDomain).click();
       await $(this.edtDomainTOsolar).click();
@@ -1026,7 +1011,7 @@ class ManagementProjects {
 
 
   async verifyTiletAngle() {
-    var domainSolar = "Solar PV Rooftop";
+    var domainSolar = PlantNameData.plantData.selectDomainToSolarPvRooftop;
     var domain = await this.getDomain();
     var expectedError = "Please enter number between -90 to 90";
     if (domainSolar != domain) {
@@ -1082,12 +1067,10 @@ class ManagementProjects {
     return [shortname, longname, prototype, latitude, longitude, location, capacity, address, country, timeZone, domain, dataInterval, plantController, contactPerson, mobileNo, emailId];
   }
 
-  async getDeafaultColumnData() {
 
-  }
 
   async editExistingLongName() {
-    var name = "AutomationT";
+    var name = PlantNameData.plantData.editProjectExistingLongName;
     await $(this.selLongName).click();
     await $(this.selLongName).setValue(name);
     Logger.info("editLongName", name);
@@ -1095,7 +1078,8 @@ class ManagementProjects {
   }
 
   async editExistingShortName() {
-    var name = "AutoIndia";
+
+    var name = PlantNameData.plantData.editProjectExistingShortName;
     await $(this.selShortName).click();
     await $(this.selShortName).setValue(name);
     Logger.info("editShortName", name);
@@ -1139,10 +1123,6 @@ class ManagementProjects {
     return [srno, shortName, longName];
   };
 
-
-
-
-
   async editBasicDetails() {
     var longname = await this.editLongName();
     var shortname = await this.editShortName();
@@ -1161,10 +1141,6 @@ class ManagementProjects {
     await $(this.btnOkUnderSave).click();
 
   }
-
-
-
-
 
   async afterEditGetDataForCompare() {
     var shortName = await this.getShortName();
@@ -1186,7 +1162,8 @@ class ManagementProjects {
   }
 
   async setLongName() {
-    var name = "AutomationTest";
+
+    var name = PlantNameData.plantData.setProjectlongNameAutomation;
     await $(this.selLongName).click();
     await $(this.selLongName).setValue(name);
     Logger.info("setLongName");
@@ -1194,10 +1171,11 @@ class ManagementProjects {
   }
 
   async editLongName() {
-    var name = "AutomationTestEd";
+    var name = PlantNameData.plantData.editProjectLongName;
     await $(this.selLongName).click();
     await $(this.selLongName).setValue(name);
     Logger.info("editLongName", name);
+    browser.pause(5000);
     return name;
   }
 
@@ -1209,7 +1187,7 @@ class ManagementProjects {
   }
 
   async setShortName() {
-    var name = "Auto";
+    var name = PlantNameData.plantData.setProjectShortNameToAuto;
     await $(this.selShortName).click();
     await $(this.selShortName).setValue(name);
     Logger.info("setShortName");
@@ -1217,7 +1195,7 @@ class ManagementProjects {
   }
 
   async editShortName() {
-    var name = "AutoEd";
+    var name = PlantNameData.plantData.editProjectShortName;
     await $(this.selShortName).click();
     await $(this.selShortName).setValue(name);
     Logger.info("editShortName", name);
@@ -1243,16 +1221,16 @@ class ManagementProjects {
 
 
   async setProtocolType() {
-    var name = "FTP";
+    var type = PlantNameData.plantData.setProjectProtocolType;
     await $(this.selProtocolType).click();
     await $(this.addProtocolType).click();
     Logger.info("setProtocolType");
-    return name;
+    return type;
 
   }
 
   async editProtocolType() {
-    var name = "Modbus";
+    var name = PlantNameData.plantData.editProjectProtocolType;
     var prototype = await this.getProtocolType();
     Logger.info("prois", prototype);
 
@@ -1274,7 +1252,7 @@ class ManagementProjects {
   }
 
   async setLatitudeValue() {
-    var latitude = "123.321.11";
+    var latitude = PlantNameData.plantData.setProjectLatitude;
     await $(this.selLatitudeId).click();
     await $(this.selLatitudeId).setValue(latitude);
     Logger.info("setLatitudeValue");
@@ -1282,7 +1260,7 @@ class ManagementProjects {
   }
 
   async editLatitudeValue() {
-    var latitude = "123.321";
+    var latitude = PlantNameData.plantData.editProjectLatitude;
     await $(this.selLatitudeId).click();
     await $(this.selLatitudeId).setValue(latitude);
     Logger.info("editLatitudeValue", latitude);
@@ -1297,7 +1275,7 @@ class ManagementProjects {
 
 
   async setLongitudeValue() {
-    var longitude = "9191.123.1";
+    var longitude = PlantNameData.plantData.setProjectLongitude;
     await $(this.selLongitudeId).click();
     await $(this.selLongitudeId).setValue(longitude);
     Logger.info("setLongitudeValue");
@@ -1305,7 +1283,7 @@ class ManagementProjects {
   }
 
   async editLongitudeValue() {
-    var longitude = "9191.321";
+    var longitude = PlantNameData.plantData.editProjectLongitude;
     await $(this.selLongitudeId).click();
     await $(this.selLongitudeId).setValue(longitude);
     Logger.info("editLongitudeValue", longitude);
@@ -1320,7 +1298,7 @@ class ManagementProjects {
 
 
   async setPlantLocation() {
-    var name = "Delhi";
+    var name = PlantNameData.plantData.setProjectPlantLocation;
     await $(this.selPlantLocation).click();
     await $(this.selPlantLocation).setValue(name);
     Logger.info("setPlantLocation");
@@ -1328,7 +1306,7 @@ class ManagementProjects {
   }
 
   async editPlantLocation() {
-    var name = "Mumbai";
+    var name = PlantNameData.plantData.editProjectLocation;
     await $(this.selPlantLocation).click();
     await $(this.selPlantLocation).setValue(name);
     Logger.info("editPlantLocation", name);
@@ -1342,7 +1320,7 @@ class ManagementProjects {
   }
 
   async setCapacity() {
-    var name = 660;
+    var name = PlantNameData.plantData.setProjectPlantCapacity;
     await $(this.selCapacityId).click();
     await $(this.selCapacityId).setValue(name);
     Logger.info("setCapacity");
@@ -1350,7 +1328,7 @@ class ManagementProjects {
   }
 
   async editCapacity() {
-    var name = 1320;
+    var name = PlantNameData.plantData.editProjectCapacity;
     await $(this.selCapacityId).click();
     await $(this.selCapacityId).setValue(name);
     Logger.info("editCapacity", name);
@@ -1366,7 +1344,7 @@ class ManagementProjects {
   }
 
   async setAddress() {
-    var address = "1 Delhi";
+    var address = PlantNameData.plantData.setProjectAddress;
     await $(this.selAddressId).click();
     await $(this.selAddressId).setValue(address);
     Logger.info("setAddress");
@@ -1374,7 +1352,8 @@ class ManagementProjects {
   }
 
   async setBritishLocation() {
-    var address = "London";
+
+    var address = PlantNameData.plantData.setProjectBritishLocation;
     await $(this.selPlantLocation).click();
     await $(this.selPlantLocation).setValue(address);
     Logger.info("setAddress");
@@ -1390,15 +1369,12 @@ class ManagementProjects {
   }
 
   async editAddress() {
-    var address = "1 Mumbai";
+    var address = PlantNameData.plantData.editProjectAddress;
     await $(this.selAddressId).click();
     await $(this.selAddressId).setValue(address);
     Logger.info("editAddress", address);
     return address;
   }
-
-
-
 
   async getAddress() {
     await $(this.selAddressId).click();
@@ -1408,14 +1384,12 @@ class ManagementProjects {
   }
 
   async setCountry() {
-    var country = "British Indian Ocean Territory";
+    var country = PlantNameData.plantData.setProjectCountry;
     await $(this.selCountryName).click();
     await $(this.addCountry).click()
     Logger.info("setCountry");
     return country;
   }
-
-
 
   async setDefaultCountry() {
     await $(this.selCountryName).click();
@@ -1423,10 +1397,8 @@ class ManagementProjects {
     Logger.info("setCountry");
   }
 
-
-
   async editCountry() {
-    var country = "Angola";
+    var country = PlantNameData.plantData.editProjectCountry;
     var getCountryName = await this.getCountry();
     if (country == getCountryName) {
       return country;
@@ -1445,7 +1417,7 @@ class ManagementProjects {
   }
 
   async setTimeJone() {
-    var timeJone = "(UTC-12:00)";
+    var timeJone = PlantNameData.plantData.setProjectTimeZone;
     await $(this.selTimeZone).click();
     await $(this.addTimeJone).click();
     Logger.info("setTimeJone");
@@ -1453,7 +1425,7 @@ class ManagementProjects {
   }
 
   async editTimeZone() {
-    var editTimeZone = "(UTC-11:00) Coordinated Universal Time-11";
+    var editTimeZone = PlantNameData.plantData.editProjectTimeZone;
     var getTime = await this.getTimeZone();
     Logger.info("getTime", getTime)
     if (editTimeZone == getTime) {
@@ -1475,7 +1447,7 @@ class ManagementProjects {
   }
 
   async setDomain() {
-    var domain = "Battery Management System";
+    var domain = PlantNameData.plantData.setProjectDomain;
     await $(this.selDomain).click();
     await $(this.addDomain).click();
     Logger.info("setDomain");
@@ -1483,7 +1455,7 @@ class ManagementProjects {
   }
 
   async setDataApiUrl() {
-    var url = "https://ftpstore.prescinto.com/";
+    var url = PlantNameData.plantData.setProjectDataApiUrl;
     await $(this.selDataApiUrl).click();
     await $(this.addDataApi).click();
     Logger.info("setDataApiUrl");
@@ -1491,19 +1463,16 @@ class ManagementProjects {
   }
 
   async setWeatherSource() {
-    var source = "https://ftpstore.prescinto.com/";
+    var source = PlantNameData.plantData.setProjectWeatherSource;
     await $(this.selWeatherSource).click();
     await $(this.addWetherSource).click();
     Logger.info("setWeatherSource");
     return source;
   }
 
-
-
-
   async editDomain() {
-    var domain = "Battery Thermal Management System";
 
+    var domain = PlantNameData.plantData.editProjectDomain;
     var domaiData = await this.getDomain();
     if (domain == domaiData) {
       return domain;
@@ -1523,7 +1492,7 @@ class ManagementProjects {
   }
 
   async setDataInterval() {
-    var dataInt = "10 - sec";
+    var dataInt = PlantNameData.plantData.setProjectDataInterval;
     await $(this.selDataInterval).click();
     await $(this.addDataInterval).click();
     Logger.info("setDataInterval");
@@ -1531,7 +1500,7 @@ class ManagementProjects {
   }
 
   async editDataInterval() {
-    var dataInt = "5 - sec";
+    var dataInt = PlantNameData.plantData.editProjectDataInterval;
     var getDataInt = await this.getDataInterval();
 
     if (dataInt == getDataInt) {
@@ -1542,7 +1511,6 @@ class ManagementProjects {
       Logger.info("editDataInterval", dataInt);
       return dataInt;
     }
-
   }
 
   async getDataInterval() {
@@ -1552,7 +1520,7 @@ class ManagementProjects {
   }
 
   async setplantControllerID() {
-    var plantId = "IND01";
+    var plantId = PlantNameData.plantData.setProjectPlantControllerId;
     await $(this.selControllerId).click();
     await $(this.selControllerId).setValue(plantId);
     Logger.info("setplantControllerID");
@@ -1560,7 +1528,7 @@ class ManagementProjects {
   }
 
   async editplantControllerID() {
-    var plantId = "IND0111";
+    var plantId = PlantNameData.plantData.editProjectPlantControlId;
     await $(this.selControllerId).click();
     await $(this.selControllerId).setValue(plantId);
     Logger.info("editplantControllerID", plantId);
@@ -1575,7 +1543,7 @@ class ManagementProjects {
   }
 
   async setContactPersonName() {
-    var name = "Adani";
+    var name = PlantNameData.plantData.setProjectContactPersonName;
     await $(this.selContactPerson).click();
     await $(this.selContactPerson).setValue(name);
     Logger.info("setContactName");
@@ -1584,7 +1552,7 @@ class ManagementProjects {
 
 
   async editContactPersonName() {
-    var name = "Reliance";
+    var name = PlantNameData.plantData.editProjectContactPersonName;
     await $(this.selContactPerson).click();
     await $(this.selContactPerson).setValue(name);
     Logger.info("editContactPersonName", name);
@@ -1598,7 +1566,7 @@ class ManagementProjects {
   }
 
   async setMobileNo() {
-    var no = 9999999999;
+    var no = PlantNameData.plantData.setProjectMobileNumber;
     await $(this.selMobileNo).click();
     await $(this.selMobileNo).setValue(no);
     Logger.info("setMobileNo");
@@ -1606,7 +1574,7 @@ class ManagementProjects {
   }
 
   async editMobileNo() {
-    var no = 9999999000;
+    var no = PlantNameData.plantData.editProjectMobileNo;
     await $(this.selMobileNo).click();
     await $(this.selMobileNo).setValue(no);
     Logger.info("editMobileNo", no);
@@ -1621,7 +1589,7 @@ class ManagementProjects {
   }
 
   async setEmailId() {
-    var eId = "test@gmail.com";
+    var eId = PlantNameData.plantData.setProjectEmailId;
     await $(this.selEmailId).click();
     await $(this.selEmailId).setValue(eId);
     Logger.info("setEmailId");
@@ -1629,7 +1597,7 @@ class ManagementProjects {
   }
 
   async editEmailId() {
-    var eId = "testedit@gmail.com";
+    var eId = PlantNameData.plantData.editProjectEmailId;
     await $(this.selEmailId).click();
     await $(this.selEmailId).setValue(eId);
     Logger.info("editEmailId", eId);
@@ -1644,7 +1612,6 @@ class ManagementProjects {
   }
 
   //filter for assertion process
-
   async readDefaultData(shortname) {
     var shortName = await this.getShortName();
     var longName = await this.getLongName();
@@ -1682,7 +1649,6 @@ class ManagementProjects {
 
 
   async setDefaultData(shortname, longname, latitude) {
-
     await this.setShortNameParameter(shortname);
     await this.setLongNameParameter(longname);
     await this.setLatitudeValueParameter(latitude);

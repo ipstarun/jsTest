@@ -16,23 +16,24 @@ describe("Projects Test cases.", () => {
           await ManagementProjectsPage.clickOnManagement();
           await ManagementProjectsPage.verifyNewUserDataValidation();
           await HomePage.logoutSession();
-
      });
 
-
-
-     it('TC_Projects_03 :"Verify whether the user is able to edit the created project"', async () => {
+     it.only('TC_Projects_03 :"Verify whether the user is able to edit the created project"', async () => {
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.clickOnManagement();
           await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectPlantName);//for specific user
+          await ManagementProjectsPage.clickOnFirstName();
           await ManagementProjectsPage.clickEditIcon();
           var defaultValues = await ManagementProjectsPage.readDefaultData();
           await browser.pause(3000);
           var initalData = await ManagementProjectsPage.editCreatedProject();
+
+
           await ManagementProjectsPage.saveEditedData();
           await ManagementProjectsPage.filterForCheck(initalData[0]);
+          await ManagementProjectsPage.clickOnFirstName();
           await ManagementProjectsPage.clickEditIcon();
-          //assertion
+          // //assertion
           var asserstionCompareValues = await ManagementProjectsPage.afterEditGetDataForCompare();
           await ManagementProjectsPage.compareAssertionData(initalData[0], asserstionCompareValues[0]);
           await ManagementProjectsPage.compareAssertionData(initalData[1], asserstionCompareValues[1]);
@@ -95,9 +96,6 @@ describe("Projects Test cases.", () => {
 
      });
 
-
-
-
      it('TC_Projects_08 :Menu access rights-Verify whether the user is able to select all and deselect the menus in a single click for a module', async () => {
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.gotoProjects();
@@ -118,7 +116,6 @@ describe("Projects Test cases.", () => {
      });
 
      it('TC_Projects_10 :Verify whether the project capacity is listed in landing page based on the selection in projects master', async () => {
-
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.gotoProjects();
           await ManagementProjectsPage.selectSpecificPlantName(PlantNameData.plantData.specificPlantName);
@@ -132,11 +129,7 @@ describe("Projects Test cases.", () => {
           await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectNameForVerifyCounrty);//for specific user       
           await ManagementProjectsPage.verifyCountryLocation();
           await HomePage.logoutSession();
-
-
      });
-
-
 
      it('TC_Projects_13 :Verify whether the mounting type is a mandatory field while creating project with the below options to select from --Fixed Tilt,Seasonal Tilt,Single-axis-tracker,Dual-axis-tracker', async () => {
           await LoginPage.loginWithValidCredentials();
@@ -159,7 +152,6 @@ describe("Projects Test cases.", () => {
      });
 
 
-
      it('TC_Projects_15 :Verify whether the user is only allowed to enter values between -90 to +90 in the tilt angle field and any values outside this range should show the below error message- Please enter number between -90 to 90', async () => {
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.gotoProjects();
@@ -168,7 +160,6 @@ describe("Projects Test cases.", () => {
           //assertion
           await ManagementProjectsPage.verifyTiletAngle();
           await HomePage.logoutSession();
-
 
      });
 

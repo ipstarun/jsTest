@@ -30,11 +30,72 @@ const PlantNameData = {
     lblInverterWisDeviation: "Inverter Wise Deviation",
     lblInverterwiseStringClassification: "Inverter Wise String Classification",
     percentageStringCurrent: "5.64",
+
+
+
+
     projectPlantName: "testuser01",//you cna change the name accordrdingly
     projectTiltPlantName: "testuser21",
     projectNameForVerifyCounrty: "GR.SUNS.VATH",
     projectTiltVerify: 'anderson',
     existingProjectPlantName: "autotest",
+    editProjectLongName: 'AutomationTestEd',
+    editProjectShortName: 'AutoEd',
+    editProjectProtocolType: 'Modbus',
+    editProjectLatitude: '123.32',
+    editProjectLongitude: '9191.321',
+    editProjectLocation: 'Mumbai',
+    editProjectCapacity: '1320',
+    editProjectAddress: '1 Mumbai',
+    editProjectCountry: 'Angola',
+    editProjectTimeZone: '(UTC-11:00) Coordinated Universal Time-11',
+    editProjectDomain: 'Battery Thermal Management System',
+    editProjectDataInterval: '5 - sec',
+    editProjectPlantControlId: 'IND0111',
+    editProjectContactPersonName: 'bilGates',
+    editProjectMobileNo: 9999999000,
+    editProjectEmailId: 'testedit@gmail.com',
+
+
+
+    setProjectLongName: 'AutomationNewUser',
+    setProjectShortName: 'newUserAuto',
+    setProjectProtocolType: 'FTP',
+    setProjectLatitude: '123.321.11',
+    setProjectLongitude: '9191.123.1',
+    setProjectPlantLocation: 'Delhi',
+    setProjectPlantCapacity: 660,
+    setProjectAddress: '1 Delhi',
+    setProjectCountry: 'British Indian Ocean Territory',
+    setProjectTimeZone: '(UTC-12:00)',
+    setProjectDomain: 'Battery Management System',
+    setProjectDataApiUrl: 'https://ftpstore.prescinto.com/',
+    setProjectWeatherSource: 'https://ftpstore.prescinto.com/',
+    setProjectDataInterval: '10 - sec',
+    setProjectPlantControllerId: 'IND01',
+    setProjectContactPersonName: 'Adani',
+    setProjectMobileNumber: 9990001119,
+    setProjectEmailId: 'test@gmail.com',
+
+    projectActiveUserClass: 'ng-untouched ng-pristine ng-valid',
+    projectActiveUserExpectedName: 'Fedral Power',
+    projectDeActiveUserExpectedName: 'Fintech Power LTD',
+    projectExpectedClassForFutureDate: 'mat-calendar-body-cell mat-calendar-body-disabled ng-star-inserted',
+    setProjecrFeatureToCmms: 'CMMS',
+    setProjectMountingTypeToFixedTilt: 'Fixed Tilt',
+    setProjectMountingTypeToSeasonalTilt: 'Seasonal Tilt',
+    setProjectMountingTypeToSingleAxisTracker: 'Single Axis Tracker',
+    setProjectMountingTypeToDualAxisTracker: 'Dual Axis Tracker',
+    selectDomainToSolarPvRooftop: 'Solar PV Rooftop',
+
+    editProjectExistingLongName: 'AutomationT',
+    editProjectExistingShortName: 'AutoIndia',
+
+    setProjectlongNameAutomation: 'AutomationTest',
+    setProjectShortNameToAuto: 'Auto',
+
+    setProjectBritishLocation: 'London',
+
 
 
 
