@@ -181,8 +181,8 @@ class JmrPage {
 
     selFilter = '//button[@class="mat-tooltip-trigger bttn action-btn"]';
     getJmrCodeAfterFilter = '//*[@row-index="0"]//*[@col-id="JmrCode"]';
-    fetchUbilledData = '(//*[@class="input-renderer ng-untouched ng-pristine ng-valid"])[1]';
-    getDeemedValue = '//*[@col-id="DeemedGeneration"]//*[@type="number"]';
+    fetchBilledData = '//*[@col-id="BilledUnits"]//*[@name="Value"]';//'(//*[@class="input-renderer ng-untouched ng-pristine ng-valid"])[1]';
+    ////*[@col-id="BilledUnits"]//*[@name="Value"]
     clickbilled = '//*[contains(text(),"Billable")]';
 
 
@@ -205,7 +205,7 @@ class JmrPage {
     billingMonthDataJmr = '(//*[@row-id="0"])//*[@col-id="BillingDate"]';
     selectNxtMonth = '//*[@class="mat-calendar-table" ]//*[contains(text(),"11")]';
     selectRightTik = '//*[@class="cdk-overlay-pane mat-datepicker-popup"]//*[contains(text(),"done")]';
-    clickBilledUnit = '(//*[@col-id="BilledUnits"])[2]';
+    clickBilledUnit = '//*[@col-id="BilledUnits"]//*[@name="Value"]';//'(//*[@col-id="BilledUnits"])[2]';
     clickMeterRight = '//*[@id="jrm-btn-apply"]';
     clickOkbtn = '[class="primary-cta ng-star-inserted"]';
     clickOnStat = '(//*[@row-id="0"])//*[@col-id="JmrStatus"]';
@@ -216,8 +216,10 @@ class JmrPage {
     jmrEndDate = '(//*[@row-id="0"])//*[@col-id="EndDate"]';
     clickReadType = '//*[@row-id="0"]//*[@col-id="JmrReadingType"]';
     clickUnbilled = '//*[contains(text(),"Unbillable")]';
+    clickbilledValue = '//*[contains(text(),"Billable")]';
+
     assignedToSearchIcon = '(//*[@col-id="AssignedToName"])[2]/*/*';
-    assignedtoSelectAutomation = '//*[@col-id="UserName" and @tabindex="-1" and @class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value"]';
+    assignedtoSelectAutomation = '//*[@row-index="2"]//*[@col-id="UserName"]';
     assignedToRightClickBtn = '(//*[@class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color"])[10]';
     approveToSearchIcon = '[data-action-type="UserSearch2"]';
     sideClick = '(//*[@row-id="0"])//*[@col-id="Correction"]';
@@ -225,6 +227,10 @@ class JmrPage {
     clickOnRermarkBox = '(//*[@row-id="0"])//*[@col-id="Remarks"]';
     setRemarkValue = '(//*[@class="ag-input-field-input ag-text-area-input"])';
     clickHome = '[fill="#165FFA"]';
+    fetchUnBilledData = '//*[@col-id="UnbilledUnits"]//*[@name="Value"]';
+    getDeemedValue = '//*[@col-id="DeemedGeneration"]//*[@type="number"]';
+
+
 
     // Functions
     async goToCmms() {
@@ -1335,73 +1341,123 @@ class JmrPage {
 
 
     async inLineEditingAllJmrData() {
-
-        // await $(this.clickOnAssignedToSearchIcon).click();
-        // await $(this.clickOnApprovedToSearchIcon).click();
-        // browser.pause(2000);
-        // await $(this.selectFirstNAmeFromAssignedTo).click();
-        // browser.pause(2000);
-        // await $(this.btnApply).click();
-        // browser.pause(2000);
-
-
-
-
+        //crt
         var initialJMRValue = await this.getInitialJmrNameAndCode();
+        await this.CheckJmrCode(initialJMRValue);
+        await $(this.getBilledDateAfterEdit).scrollIntoView();
         var defaultBillMonth = await this.BillingMonthJmr();
+        browser.pause(2000);
         await this.editBilledMonth();
+        await $(this.iconPlus).scrollIntoView();
         var initialBilingMonth = await this.BillingMonthJmr();
-        //comparing  default billing month with the edited billling month
+        // comparing  default billing month with the edited billling month
         await this.compareAssertionDataNotToBe(defaultBillMonth, initialBilingMonth);
 
-        
-        var [billAmount, deemedValue] = await this.editUnbilledAndDeemedValue();
-        var initalStatus = await this.editProjectStatus();
-        var initalReading = await this.editReadingType();
-        var initalAssignedToVal = await this.editingAssignedTo();
-        var initalApprovedTo = await this.editApprovedTo();
-        browser.pause(2000);
-        await this.editProjectStatus();
-        // await this.editReadingType();
-        browser.pause(2000);
-        var defaultJmrstartDate = await this.getJmrStartingDate();
-        var defaultJmrEndDate = await this.getJmrEndDate();
-        await this.editJmrStartDate();
-        browser.pause(4000);
-        await this.editReadingType();
-        await this.editJmrEndDate();
-        var initalJmrStartingDate = await this.getJmrStartingDate();
-        var initalJmrEndDate = await this.getJmrEndDate();
-        //comparing  default start date and end date with edited values
-        await this.compareAssertionDataNotToBe(defaultJmrstartDate, initalJmrStartingDate);
-        await this.compareAssertionDataNotToBe(defaultJmrEndDate, initalJmrEndDate);
-        var initalRemark = await this.editRemarkValue();
+        await $(this.clickReadType).scrollIntoView();
+        const readDataType = await $(this.clickReadType).getText();
+        Logger.info("the readtype data ", readDataType);
 
-        await this.clickMenu();
-        await this.goToCmms();
-        await this.clickToJmr();
-        await this.filterOpertaionJmrWorkNotStarted();
-        await browser.pause(2000);
-        await this.CheckJmrCode(initialJMRValue);
-        await browser.pause(3000);
+        if (readDataType != PlantNameData.plantData.jmrSetReadTypeToBilled) {
+            var [billAmount, deemedValue] = await this.editbilledAndDeemedValue();
+            var initalStatus = await this.editProjectStatus();
+            browser.pause(10000);
+            var initalAssignedToVal = await this.editingAssignedTo();
+            var initalApprovedTo = await this.editApprovedTo();
+            browser.pause(2000);
+            await this.editProjectStatus();
 
-        // //assertion
-        var initialValue = [initialJMRValue, initialBilingMonth, billAmount, deemedValue, initalStatus, initalReading, initalAssignedToVal, initalApprovedTo, initalJmrStartingDate, initalJmrEndDate, initalRemark];
-        var afterEditValues = await this.inLineEditingData();
+            browser.pause(2000);
+            var defaultJmrstartDate = await this.getJmrStartingDate();
 
-        await this.compareAssertionData(initialValue[0], afterEditValues[0]);
-        await this.compareAssertionData(initialValue[1], afterEditValues[1]);
-        await this.compareAssertionData(initialValue[3], afterEditValues[3]);
-        await this.compareAssertionData(initialValue[4], afterEditValues[4]);
-        await this.compareAssertionData(initialValue[5], afterEditValues[5]);
-        await this.compareAssertionData(initialValue[6], afterEditValues[6]);
-        await this.compareAssertionData(initialValue[7], afterEditValues[7]);
-        await this.compareAssertionData(initialValue[8], afterEditValues[8]);
-        await this.compareAssertionData(initialValue[9], afterEditValues[9]);
-        await this.compareAssertionData(initialValue[10], afterEditValues[10]);
-        await this.compareAssertionDataNotToBe(initialValue[2], afterEditValues[2]);
+            var defaultJmrEndDate = await this.getJmrEndDate();
+            await this.editJmrStartDate();
+            browser.pause(4000);
+            await this.editJmrEndDate();
+            var initalJmrStartingDate = await this.getJmrStartingDate();
+            var initalReading = await this.editReadingType();
+            var initalJmrEndDate = await this.getJmrEndDate();
+            //comparing  default start date and end date with edited values
+            await this.compareAssertionDataNotToBe(defaultJmrstartDate, initalJmrStartingDate);
+            await this.compareAssertionDataNotToBe(defaultJmrEndDate, initalJmrEndDate);
+            var initalRemark = await this.editRemarkValue();
+            await this.clickMenu();
+            await this.goToCmms();
+            await this.clickToJmr();
+            await this.filterOpertaionJmrWorkNotStarted();
+            await browser.pause(2000);
+            await this.CheckJmrCode(initialJMRValue);
+            await browser.pause(3000);
+            // //assertion
+            var initialValue = [initialJMRValue, initialBilingMonth, billAmount, deemedValue, initalStatus, initalReading, initalAssignedToVal, initalApprovedTo, initalJmrStartingDate, initalJmrEndDate, initalRemark];
+            var afterEditValues = await this.inLineEditingData();
+
+            await this.compareAssertionData(initialValue[0], afterEditValues[0]);
+            await this.compareAssertionData(initialValue[1], afterEditValues[1]);
+            await this.compareAssertionData(initialValue[3], afterEditValues[3]);
+            await this.compareAssertionData(initialValue[4], afterEditValues[4]);
+            await this.compareAssertionData(initialValue[5], afterEditValues[5]);
+            await this.compareAssertionData(initialValue[6], afterEditValues[6]);
+            await this.compareAssertionData(initialValue[7], afterEditValues[7]);
+            await this.compareAssertionData(initialValue[8], afterEditValues[8]);
+            await this.compareAssertionData(initialValue[9], afterEditValues[9]);
+            await this.compareAssertionData(initialValue[10], afterEditValues[10]);
+            await this.compareAssertionDataNotToBe(initialValue[2], afterEditValues[2]);
+        } else {
+
+            Logger.info("error page else")
+            var [billAmount, deemedValue] = await this.editUnbilledAndDeemedValue();
+            var initalStatus = await this.editProjectStatus();
+
+            var initalAssignedToVal = await this.editingAssignedTo();
+            var initalApprovedTo = await this.editApprovedTo();
+            browser.pause(2000);
+            await this.editProjectStatus();
+
+            browser.pause(2000);
+            var defaultJmrstartDate = await this.getJmrStartingDate();
+            var defaultJmrEndDate = await this.getJmrEndDate();
+            await this.editJmrStartDate();
+            browser.pause(4000);
+
+            await this.editJmrEndDate();
+            var initalJmrStartingDate = await this.getJmrStartingDate();
+            var initalReading = await this.editReadingType();
+            var initalJmrEndDate = await this.getJmrEndDate();
+            //comparing  default start date and end date with edited values
+            await this.compareAssertionDataNotToBe(defaultJmrstartDate, initalJmrStartingDate);
+            await this.compareAssertionDataNotToBe(defaultJmrEndDate, initalJmrEndDate);
+            var initalRemark = await this.editRemarkValue();
+
+            await this.clickMenu();
+            await this.goToCmms();
+            await this.clickToJmr();
+            await this.filterOpertaionJmrWorkNotStarted();
+            await browser.pause(2000);
+            await this.CheckJmrCode(initialJMRValue);
+            await browser.pause(3000);
+
+            //assertion
+            var initialValue = [initialJMRValue, initialBilingMonth, billAmount, deemedValue, initalStatus, initalReading, initalAssignedToVal, initalApprovedTo, initalJmrStartingDate, initalJmrEndDate, initalRemark];
+            var afterEditValues = await this.inLineEditingData();
+
+            await this.compareAssertionData(initialValue[0], afterEditValues[0]);
+            await this.compareAssertionData(initialValue[1], afterEditValues[1]);
+            await this.compareAssertionData(initialValue[3], afterEditValues[3]);
+            await this.compareAssertionData(initialValue[4], afterEditValues[4]);
+            await this.compareAssertionData(initialValue[5], afterEditValues[5]);
+            await this.compareAssertionData(initialValue[6], afterEditValues[6]);
+            await this.compareAssertionData(initialValue[7], afterEditValues[7]);
+            await this.compareAssertionData(initialValue[8], afterEditValues[8]);
+            await this.compareAssertionData(initialValue[9], afterEditValues[9]);
+            await this.compareAssertionData(initialValue[10], afterEditValues[10]);
+            await this.compareAssertionDataNotToBe(initialValue[2], afterEditValues[2]);
+
+        }
+
     }
 
+
+    clickDem = '//*[@row-index="0"]//*[@col-id="BilledUnitsDeemedGeneration"]';
 
     async editBilledMonth() {
         await $(this.billingMonthDataJmr).doubleClick();
@@ -1411,7 +1467,9 @@ class JmrPage {
         await $(this.selectNxtMonth).click();
         await $(this.selectRightTik).waitForDisplayed();
         await $(this.selectRightTik).click();
-        await $(this.getJmrCo).click();
+        await browser.pause(2000);
+        await $(this.clickDem).click();
+
     }
 
 
@@ -1422,13 +1480,31 @@ class JmrPage {
         await $(this.iconPlus).click();
         await $(this.clickBilledUnit).click();
         await $(this.clickBilledUnit).click();
-        await $(this.fetchUbilledData).setValue(billedValue);
+        await $(this.fetchBilledData).setValue(billedValue);
         await $(this.getDeemedValue).setValue(deemedValueSet);
         await $(this.clickMeterRight).click();
         await $(this.clickOkbtn).click();
         return [billedValue, deemedValueSet];
 
     }
+    async editbilledAndDeemedValue() {
+        var unBilledValue = PlantNameData.plantData.jmrSetUnBilledValue;
+        var deemedValueSet = PlantNameData.plantData.jmrSetDeemedValue;
+
+        await $(this.iconPlus).click();
+        await $(this.fetchUnBilledData).click();
+        await $(this.fetchUnBilledData).click();
+        await browser.pause(2000);
+        await $(this.fetchUnBilledData).setValue(unBilledValue);
+        await browser.pause(2000);
+        await $(this.getDeemedValue).setValue(deemedValueSet);
+        await browser.pause(2000);
+        await $(this.clickMeterRight).click();
+        await $(this.clickOkbtn).click();
+        return [unBilledValue, deemedValueSet];
+
+    }
+
 
 
     async editProjectStatus() {
@@ -1439,9 +1515,9 @@ class JmrPage {
         Logger.info("clickeddd")
         await $(this.clickOnStat).click();
         await $(this.workNotStarted).click();
-        // await $(this.getAssignedToValue).click();
+
         await $(this.getAssignedToValue).scrollIntoView();
-        // await $(this.getApprovedToValue).click();
+
         await $(this.getApprovedToValue).scrollIntoView();
 
         await $(this.jmrStartDate).click();
@@ -1454,20 +1530,28 @@ class JmrPage {
 
         const readDataE = await $(this.clickReadType).getText();
         Logger.info("the readtype data ", readDataE);
-        var unBill = PlantNameData.plantData.jmrSetReadType;
+        var BilledValue = PlantNameData.plantData.jmrSetReadTypeToBilled;
 
-        if (readDataE != unBill) {
+        if (readDataE == BilledValue) {
             console.log("if  block");
             await $(this.clickReadType).doubleClick();
             await $(this.clickReadType).click();
             browser.pause(2000);
             await $(this.clickUnbilled).click();
-            browser.pause(2000);
-            return unBill;
+            await $(this.clickReadType).click();
+            browser.pause(5000);
+            return PlantNameData.plantData.jmrSetReadType;
         }
         else {
+            await $(this.clickReadType).doubleClick();
+            await $(this.clickReadType).click();
+            browser.pause(2000);
+            await $(this.clickbilledValue).click();
+            // await $(this.clickbilledValue).click();
+            browser.pause(500000);
+            await $(this.clickReadType).click();
             console.log("else block");
-            return unBill;
+            return BilledValue;
         }
     }
 
@@ -1475,15 +1559,16 @@ class JmrPage {
         var valueAssignedTO = PlantNameData.plantData.jmrEditAssignedTo;
         await $(this.assignedToSearchIcon).click();
         await $(this.assignedtoSelectAutomation).click();
-        await $(this.assignedToRightClickBtn).click();
+        await $(this.btnApply).click();
         return valueAssignedTO;
     }
 
     async editApprovedTo() {
         var valueApprovedTo = PlantNameData.plantData.jmrEditApprovedTo;
         await $(this.approveToSearchIcon).click();
-        await $(this.assignedtoSelectAutomation).click();
-        await $(this.assignedToRightClickBtn).click();
+        await browser.pause(2000);
+        await $(this.selectFirstNAmeFromAssignedTo).click();
+        await $(this.btnApply).click();
         return valueApprovedTo;
     }
 
@@ -1582,13 +1667,29 @@ class JmrPage {
         Logger.info("date after edit", afterEditMonthE);
 
         //unbilled and deemedd
-        await $(this.iconPlusE).click();
+        await $(this.iconPlus).click();
         await browser.pause(2000);
-        await $(this.fetchUbilledData).click();
-        await browser.pause(2000);
-        await $(this.fetchUbilledData).click();
-        const billedValE = await $(this.fetchUbilledData).getValue();
-        Logger.info("unbilled value ", billedValE);
+
+        const readData = await $(this.clickReadType).getText();
+        let billedValE = '';
+
+        if (readData != PlantNameData.plantData.jmrSetReadTypeToBilled) {
+            await $(this.fetchUnBilledData).click();
+            await browser.pause(2000);
+            await $(this.fetchUnBilledData).click();
+            billedValE = await $(this.fetchUnBilledData).getValue();
+            Logger.info("unbilled value ", billedValE);
+
+        } else {
+            await $(this.fetchBilledData).click();
+            await browser.pause(2000);
+            await $(this.fetchBilledData).click();
+            billedValE = await $(this.fetchBilledData).getValue();
+            Logger.info("unbilled value ", billedValE);
+        }
+
+
+
         const deemedValE = await $(this.getDeemedValue).getValue();
         Logger.info("the deemedValue", deemedValE);
         await $(this.clickMeterRight).click();

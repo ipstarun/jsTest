@@ -31,8 +31,10 @@ const PlantNameData = {
 
     //tc_9
     jmrSetBilledValue: '1234',
+    jmrSetUnBilledValue: '5432',
     jmrSetDeemedValue: '4321',
     jmrSetProjectStatus: 'Work not started',
+    jmrSetReadTypeToBilled: 'Billable',
     jmrSetReadType: 'Unbillable',
     jmrEditAssignedTo: 'Automation',
     jmrEditApprovedTo: 'adminAutomate',
