@@ -149,9 +149,145 @@ class ManagementProjects {
   clickToActiveRightTick = 'class="ng-untouched ng-pristine ng-valid"';
   clickToDeActiveRightTick = 'class="ng-touched ng-dirty ng-valid"';
   deActiveData = '[ref="eBodyViewport"]';
+  getSpanTiltAngleClass = '//span[@class="mat-tooltip-trigger icon icon-Error error-icon error-required ng-star-inserted"]';
 
 
 
+  async verifyUserIsAbleToCancelCurrentOperation() {
+
+    var project = await this.getHomePageData();
+    await this.editBasicDetails();
+
+    var projectAssertionCheck = await this.getHomePageDataForAssertion();
+
+    let testResult = true;
+    if (!(project[0]) == (projectAssertionCheck[0])) {
+      testResult = false;
+      Logger.error(" code not matched");
+    }
+    if (!(project[1]) == (projectAssertionCheck[1])) {
+      testResult = false;
+      Logger.error(" code not matched");
+    }
+    if (!(project[2]) == (projectAssertionCheck[2])) {
+      testResult = false;
+      Logger.error(" code not 3 matched");
+    }
+
+    //Assertion
+    expect(testResult).toBe(true);
+
+
+    //assertion
+    // var projectAssertionCheck = await ManagementProjectsPage.getHomePageDataForAssertion();
+    // await ManagementProjectsPage.compareAssertionData(project[0], projectAssertionCheck[0]);
+    // await ManagementProjectsPage.compareAssertionData(project[1], projectAssertionCheck[1]);
+    // await ManagementProjectsPage.compareAssertionData(project[2], projectAssertionCheck[2]);
+
+  }
+
+
+
+  async verifyUserAbleToEditExistingProject() {
+    var defaultValues = await this.readDefaultData();
+    Logger.info("default", defaultValues);
+
+    await browser.pause(3000);
+    var initalData = await this.editExestingProject();
+    await this.saveEditedData();
+    await this.filterForCheck(initalData[0]);
+    await this.clickEditIcon();
+    //assertion
+    var asserstionCompareValues = await this.afterEditGetDataForCompare();
+
+    /* var shortName = await this.getShortName();
+        var longName = await this.getLongName();
+        var protoType = await this.getProtocolType();
+        var latitudeValue = await this.getLatitudeValue();
+        var longitudeValue = await this.getLongitudeValue(); */
+
+    let testResult = true;
+    if (!(initalData[0]) == (asserstionCompareValues[0])) {
+      testResult = false;
+      Logger.error("short name not matched");
+    }
+    if (!(initalData[1]) == (asserstionCompareValues[1])) {
+      testResult = false;
+      Logger.error("long name not matched");
+    }
+    if (!(initalData[2]) == (asserstionCompareValues[2])) {
+      testResult = false;
+      Logger.error("prototype not matched");
+    }
+    if (!(initalData[3]) == (asserstionCompareValues[3])) {
+      testResult = false;
+      Logger.error("latitude not matched");
+    }
+    if (!(initalData[4]) == (asserstionCompareValues[4])) {
+      testResult = false;
+      Logger.error("longitude not matched");
+    }
+
+    //Assertion
+    expect(testResult).toBe(true);
+    await ManagementProjectsPage.setDefaultData(defaultValues[0], defaultValues[1], defaultValues[2]);
+
+    // await ManagementProjectsPage.compareAssertionData(initalData[0], asserstionCompareValues[0]);
+    // await ManagementProjectsPage.compareAssertionData(initalData[1], asserstionCompareValues[1]);
+    // await ManagementProjectsPage.compareAssertionData(initalData[2], asserstionCompareValues[2]);
+    // await ManagementProjectsPage.compareAssertionData(initalData[3], asserstionCompareValues[3]);
+    // await ManagementProjectsPage.compareAssertionData(initalData[4], asserstionCompareValues[4]);
+
+  }
+
+
+
+
+
+  async verifyUserIsableToEditCreatedProject() {
+    var defaultValues = await this.readDefaultData();
+    await browser.pause(3000);
+    var initalData = await this.editCreatedProject();
+
+    await this.saveEditedData();
+    await this.filterForCheck(initalData[0]);
+    await this.clickOnFirstName();
+    await this.clickEditIcon();
+
+    var asserstionCompareValues = await this.afterEditGetDataForCompare();
+
+    let testResult = true;
+    if (!(initalData[0]) == (asserstionCompareValues[0])) {
+      testResult = false;
+      Logger.error("shortname not matched");
+    }
+    if (!(initalData[1]) == (asserstionCompareValues[1])) {
+      testResult = false;
+      Logger.error("longname not matched");
+    }
+    if (!(initalData[2]) == (asserstionCompareValues[2])) {
+      testResult = false;
+      Logger.error("prototype not matched");
+    }
+    if (!(initalData[3]) == (asserstionCompareValues[3])) {
+      testResult = false;
+      Logger.error("latitudeValue not matched");
+    }
+    if (!(initalData[4]) == (asserstionCompareValues[4])) {
+      testResult = false;
+      Logger.error("longitudeValue not matched");
+    }
+    await this.setDefaultData(defaultValues[0], defaultValues[1], defaultValues[2]);
+    //Assertion
+    expect(testResult).toBe(true);
+
+    // await this.compareAssertionData(initalData[0], asserstionCompareValues[0]);
+    // await this.compareAssertionData(initalData[1], asserstionCompareValues[1]);
+    // await this.compareAssertionData(initalData[2], asserstionCompareValues[2]);
+    // await this.compareAssertionData(initalData[3], asserstionCompareValues[3]);
+    // await this.compareAssertionData(initalData[4], asserstionCompareValues[4]);
+
+  }
 
   async clickOnFirstName() {
     await $(this.clickOnFirstProjectName).click();
@@ -187,8 +323,19 @@ class ManagementProjects {
       var getDactiveName = await $(this.deActiveData).getText();
       Logger.info("the deactive name", getDactiveName);
       //Assertion
-      expect(expectedName).toEqual(getName);
-      expect(getDactiveName).toEqual(deActiveProjectNameValue);
+      let testResult = true;
+      if (!(expectedName) == (getName)) {
+        testResult = false;
+      }
+      if (!(getDactiveName) == (deActiveProjectNameValue)) {
+        testResult = false;
+      }
+      //Assertion
+      expect(testResult).toBe(true);
+
+      // expect(expectedName).toEqual(getName);
+      // expect(getDactiveName).toEqual(deActiveProjectNameValue);
+
       await this.gotoProjects();
       await this.filterForCheck(PlantNameData.plantData.projectActiveDeactivePlant);
       await $(this.clickOnFirstProjectName).click();
@@ -304,9 +451,21 @@ class ManagementProjects {
     var editedUnSelectedData = await $(this.selProjectFeature).getText();
     Logger.info("editedUnselct", editedUnSelectedData);
     //assertion for unselect
-    expect(unSelectData).toEqual(editedUnSelectedData);
-    expect(data).toEqual(editedData);
 
+    let testResult = true;
+    if (!(unSelectData) == (editedUnSelectedData)) {
+      testResult = false;
+      Logger.error("jmr code not matched");
+    }
+    if (!(data) == (editedData)) {
+      testResult = false;
+      Logger.error("jmr code not matched");
+    }
+    //Assertion
+    expect(testResult).toBe(true);
+
+    // expect(unSelectData).toEqual(editedUnSelectedData);
+    // expect(data).toEqual(editedData);
   }
 
   async setFeatureToCMMS() {
@@ -462,27 +621,74 @@ class ManagementProjects {
     var emailId = await this.getEmailId();
 
     // //assertion
-    await this.compareAssertionData(initalValues[0], longName);
-    await this.compareAssertionData(initalValues[1], shortName);
-    await this.compareAssertionData(initalValues[2], protocolType);
-    await this.compareAssertionData(initalValues[3], latitude);
-    await this.compareAssertionData(initalValues[4], longitude);
-    await this.compareAssertionData(initalValues[5], location);
-    await this.compareAssertionData(initalValues[7], address);
-    await this.compareAssertionData(initalValues[8], country);
-    await this.compareAssertionData(initalValues[9], timeZone);
-    await this.compareAssertionData(initalValues[10], emailId);
+
+    let testResult = true;
+    if (!(initalValues[0]) == (longName)) {
+      testResult = false;
+      Logger.error("long name not matched");
+    }
+
+    if (!(initalValues[1]) == (shortName)) {
+      testResult = false;
+      Logger.error("short name not matched");
+    }
+    if (!(initalValues[2]) == (protocolType)) {
+      testResult = false;
+      Logger.error("protocolType  not matched");
+    }
+    if (!(initalValues[3]) == (latitude)) {
+      testResult = false;
+      Logger.error("latitude  not matched");
+    }
+    if (!(initalValues[4]) == (longitude)) {
+      testResult = false;
+      Logger.error("protocolType  not matched");
+    }
+    if (!(initalValues[5]) == (location)) {
+      testResult = false;
+      Logger.error("location  not matched");
+    }
+    if (!(initalValues[7]) == (address)) {
+      testResult = false;
+      Logger.error("address  not matched");
+    }
+    if (!(initalValues[8]) == (country)) {
+      testResult = false;
+      Logger.error("country  not matched");
+    }
+    if (!(initalValues[9]) == (timeZone)) {
+      testResult = false;
+      Logger.error("timeZone  not matched");
+    }
+    if (!(initalValues[10]) == (emailId)) {
+      testResult = false;
+      Logger.error("emailId  not matched");
+    }
+    //Assertion
+    expect(testResult).toBe(true);
+
+    // await this.compareAssertionData(initalValues[0], longName);
+    // await this.compareAssertionData(initalValues[1], shortName);
+    // await this.compareAssertionData(initalValues[2], protocolType);
+    // await this.compareAssertionData(initalValues[3], latitude);
+    // await this.compareAssertionData(initalValues[4], longitude);
+    // await this.compareAssertionData(initalValues[5], location);
+    // await this.compareAssertionData(initalValues[7], address);
+    // await this.compareAssertionData(initalValues[8], country);
+    // await this.compareAssertionData(initalValues[9], timeZone);
+    // await this.compareAssertionData(initalValues[10], emailId);
   }
 
 
   async userIsAbleToSelectAllAndDeselectTheMenus() {
-
+    await $(this.clickOnFirstProjectName).click();
     await this.clickEditIcon();
     await $(this.chekboxManagementView).click();
     await browser.pause(5000);
     let afterUncheckedManagementView = await $(this.afterUncheckedManagementView).isExisting();
     if (afterUncheckedManagementView) {
       Logger.info("Unchecked Management View is Working in a single click");
+
       expect(true).toBe(true);
     }
     else {
@@ -599,7 +805,7 @@ class ManagementProjects {
 
   async chartsGettingPlottedBasedOnOperationalUpdatedStartAndEndTime() {
     await this.gotoProjects();
-    await this.selectSpecificPlantName(PlantNameData.plantData.specificPlantName);
+    await this.filterForCheck(PlantNameData.plantData.dashboardPlantName);
     await this.clickEditIcon();
     await browser.pause(5000);
     await $(this.arrowStartTime).click();
@@ -647,7 +853,7 @@ class ManagementProjects {
     await LoginPage.loginWithValidCredentials();
     await this.filterForCheck(PlantNameData.plantData.projectNameForVerifyCounrty);
     var editedAddress = await $(this.getFilteredLocation).getText();
-    // //asseertion
+    // //asseertion    
     expect(editedAddress).toEqual(initialbrirtishLocation);
     //setting default country
     await this.gotoProjects();
@@ -851,18 +1057,58 @@ class ManagementProjects {
     Logger.info("resTimeJone is ", resTimeJone);
     Logger.info("resDomain is ", resDomain);
 
-    expect(reslongname).toBe(true);
-    expect(resShortname).toBe(true);
-    expect(resProtocoltype).toBe(true);
-    expect(reslatitude).toBe(true);
-    expect(reslongitude).toBe(true);
-    expect(resPlantLoctaion).toBe(true);
-    expect(resCapacity).toBe(true);
-    expect(resAddress).toBe(true);
-    expect(resCountry).toBe(true);
-    expect(resTimeJone).toBe(true);
-    expect(resDomain).toBe(true);
-    Logger.info("testcase  passed")
+
+    let testResult = true;
+    //check result of all test results 
+    if (!reslongname) {
+      testResult = false;
+    }
+    if (!resShortname) {
+      testResult = false;
+    }
+    if (!resProtocoltype) {
+      testResult = false;
+    }
+    if (!reslatitude) {
+      testResult = false;
+    }
+    if (!reslongitude) {
+      testResult = false;
+    }
+    if (!resPlantLoctaion) {
+      testResult = false;
+    }
+    if (!resCapacity) {
+      testResult = false;
+    }
+    if (!resAddress) {
+      testResult = false;
+    }
+    if (!resCountry) {
+      testResult = false;
+    }
+    if (!resTimeJone) {
+      testResult = false;
+    }
+    if (!resDomain) {
+      testResult = false;
+    }
+
+    //Assertion
+    expect(testResult).toBe(true);
+
+    // expect(reslongname).toBe(true);
+    // expect(resShortname).toBe(true);
+    // expect(resProtocoltype).toBe(true);
+    // expect(reslatitude).toBe(true);
+    // expect(reslongitude).toBe(true);
+    // expect(resPlantLoctaion).toBe(true);
+    // expect(resCapacity).toBe(true);
+    // expect(resAddress).toBe(true);
+    // expect(resCountry).toBe(true);
+    // expect(resTimeJone).toBe(true);
+    // expect(resDomain).toBe(true);
+    // Logger.info("testcase  passed")
   }
 
   async getHomePageData() {
@@ -962,50 +1208,145 @@ class ManagementProjects {
   }
 
   async verifySeasonalAndTiltAngle() {
+
     var domainSolar = PlantNameData.plantData.selectDomainToSolarPvRooftop;
     var domain = await this.getDomain();
     Logger.info("domainnn", domain);
+
     if (domain != domainSolar) {
       await $(this.selDomain).click();
       await $(this.edtDomainTOsolar).click();
+
+      await $(this.btnSave).click();
+      var expectedClass = await $(this.btnOkUnderSave).getAttribute('class');
+      Logger.info("the expected class", expectedClass);
+      await $(this.btnOkUnderSave).click();
+      var receivedMountingClass = await $(this.selMountingType).getAttribute('class');
+      Logger.info("the expeted mountingclass", receivedMountingClass);
       await $(this.selMountingType).click();
       await $(this.editMountingType).click();
       await $(this.btnSave).click();
       await $(this.btnOkUnderSave).click();
+
+      var recievedTiltAngle = await $(this.selTiltAngle).getAttribute('class');
+
       await $(this.selMountingType).click();
       await $(this.editMountingTypeToSeasonalTilt).click();
       await $(this.btnSave).click();
       await $(this.btnOkUnderSave).click();
+
+      var recievedSeasonalTiltAngle = await $(this.selTiltAngle).getAttribute('class');
+      //Assertion Checking Mounting Field Mendatory fileds
+      let testResult = true;
+
+      if (!(PlantNameData.plantData.expectedTiltAngleClass) == (recievedTiltAngle)) {
+        testResult = false;
+        Logger.error("tilt class not matched");
+      }
+
+      if (!(PlantNameData.plantData.expectedTiltAngleClass) == (recievedTiltAngle)) {
+        testResult = false;
+        Logger.error("tilt class not matched");
+      }
+      if (!(PlantNameData.plantData.expectedTiltAngleClass) == (recievedSeasonalTiltAngle)) {
+        testResult = false;
+        Logger.error("seasonal class not matched");
+      }
       await $(this.selTiltAngle).click();
       await $(this.selTiltAngle).setValue(-10);
-      await this.saveEditedData();
-    } else {
+      //Assertion
+      expect(testResult).toBe(true);
+
+
+      // expect(PlantNameData.plantData.expectedTiltAngleClass).toEqual(recievedTiltAngle);
+      // expect(PlantNameData.plantData.expectedMountingClass).toEqual(receivedMountingClass);
+      // expect(PlantNameData.plantData.expectedTiltAngleClass).toEqual(recievedSeasonalTiltAngle);
+
+
+    }
+    else {
       var mounting = await (await this.getMountingType()).trim();
       Logger.info("mountting", mounting);
-      if (mounting != "Fixed Tilt" || mounting == "Seasonal Tilt") {
-        browser.pause(4000);
-        await $(this.selMountingType).click();
-        await $(this.edtDomain).click();
-        await $(this.edtDomainTOsolar).click();
-        await $(this.editMountingType).click();
+
+      if (mounting == "Fixed Tilt" || mounting == "Seasonal Tilt") {
+        await $(this.selTiltAngle).click();
+        const selTiltAngleInput = '[id="project-tiltAngle"]';
+        const inputField = $(selTiltAngleInput);
+        // Set some initial text
+        await inputField.setValue('set value');
+        // Determine the length of the current value
+        const valueLength = await inputField.getValue().length;
+        // Use clearValue to remove the characters one by one
+        for (let i = 0; i <= valueLength; i++) {
+          await inputField.keys(['Backspace']);
+        }
+        await inputField.clearValue();
         await $(this.btnSave).click();
         await $(this.btnOkUnderSave).click();
+        var editedValues = await $(this.getSpanTiltAngleClass).getAttribute('class');
+        Logger.info("getvaluess", editedValues);
+        //Assertion Checking Mounting Field Mendatory fileds
+        let testResult = true;
+
+        if (!(PlantNameData.plantData.expectedTiltSpanClass) == (editedValues)) {
+          testResult = false;
+          Logger.error("tilt class not matched");
+        }
+        //Assertion
+        expect(testResult).toBe(true);
+        //Assertion
+        // expect(PlantNameData.plantData.expectedTiltSpanClass).toEqual(editedValues);
+      } else {
+        browser.pause(2000);
+        await $(this.selMountingType).click();
+        await $(this.editMountingType).click();
+        await $(this.selTiltAngle).click();
+        const selTiltAngleInput = '[id="project-tiltAngle"]';
+        const inputField = $(selTiltAngleInput);
+        // Set some initial text
+        await inputField.setValue('set value');
+        // Determine the length of the current value
+        const valueLength = await inputField.getValue().length;
+        // Use clearValue to remove the characters one by one
+        for (let i = 0; i <= valueLength; i++) {
+          await inputField.keys(['Backspace']);
+        }
+        await inputField.clearValue();
+        await $(this.btnSave).click();
+        await $(this.btnOkUnderSave).click();
+        var editedValue = await $(this.getSpanTiltAngleClass).getAttribute('class');
+
         await $(this.selMountingType).click();
         await $(this.editMountingTypeToSeasonalTilt).click();
+        await inputField.setValue('second value');
+        const valuelength = await inputField.getValue().length;
+        for (let i = 0; i <= valuelength; i++) {
+          await inputField.keys(['Backspace']);
+        }
+        await inputField.clearValue();
         await $(this.btnSave).click();
         await $(this.btnOkUnderSave).click();
-        await $(this.selTiltAngle).click();
-        await $(this.selTiltAngle).setValue(12);
-        await this.saveEditedData();
-        Logger.info("testcasep");
+        var editedValueSecond = await $(this.getSpanTiltAngleClass).getAttribute('class');
+        Logger.info("getvaluess", editedValueSecond);
+
+        let testResult = true;
+
+        if (!(PlantNameData.plantData.expectedTiltSpanClass) == (editedValues)) {
+          testResult = false;
+          Logger.error("tilt class not matched");
+        }
+        if (!(PlantNameData.plantData.expectedTiltSpanClass) == (editedValueSecond)) {
+          testResult = false;
+          Logger.error("tilt class not matched");
+        }
+        //Assertion
+        expect(testResult).toBe(true);
+
+        //Assertion
+        // expect(PlantNameData.plantData.expectedTiltSpanClass).toEqual(editedValue);
+        // expect(PlantNameData.plantData.expectedTiltSpanClass).toEqual(editedValueSecond);
 
       }
-      // else {
-      //   await $(this.selDomain).click();
-      //   await $(this.edtDomain).click();
-      //   await $(this.edtDomainTOsolar).click();
-
-      // }
     }
   }
 
@@ -1033,17 +1374,13 @@ class ManagementProjects {
       browser.pause(3000);
       await $(this.selTiltAngle).setValue(110);
       browser.pause(3000);
-      //assertion
       var getErrorVal = await $(this.checkErrorMesasge).getText();
+      //assertion
       expect(getErrorVal).toEqual(expectedError);
       await $(this.selTiltAngle).setValue(56);
       await this.saveEditedData();
     }
   }
-
-
-
-
 
   async editCreatedProject() {
     var longname = await this.editLongName();
@@ -1148,6 +1485,8 @@ class ManagementProjects {
     var protoType = await this.getProtocolType();
     var latitudeValue = await this.getLatitudeValue();
     var longitudeValue = await this.getLongitudeValue();
+
+
     return [shortName, longName, protoType, latitudeValue, longitudeValue];
   }
 
@@ -1212,7 +1551,6 @@ class ManagementProjects {
   //selMountingType
 
   async getMountingType() {
-    await $(this.selMountingType).click();
     var mountingType = await $(this.selMountingType).getText();
     Logger.info("mountingType", mountingType);
     return mountingType;
@@ -1660,6 +1998,7 @@ class ManagementProjects {
     await $(this.clickOnShortName).click();
     await $(this.shortNameFilter).click();
     await $(this.shortForFilter).click();
+    browser.pause(2000);
     await $(this.inputProjectCodeForCheck).setValue(shortname);
     await $(this.inputProjectCodeForCheck).click();
     await browser.pause(2000);

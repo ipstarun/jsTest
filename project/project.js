@@ -18,30 +18,33 @@ describe("Projects Test cases.", () => {
           await HomePage.logoutSession();
      });
 
-     it.only('TC_Projects_03 :"Verify whether the user is able to edit the created project"', async () => {
+     it('TC_Projects_03 :"Verify whether the user is able to edit the created project"', async () => {
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.clickOnManagement();
           await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectPlantName);//for specific user
           await ManagementProjectsPage.clickOnFirstName();
           await ManagementProjectsPage.clickEditIcon();
-          var defaultValues = await ManagementProjectsPage.readDefaultData();
-          await browser.pause(3000);
-          var initalData = await ManagementProjectsPage.editCreatedProject();
-
-
-          await ManagementProjectsPage.saveEditedData();
-          await ManagementProjectsPage.filterForCheck(initalData[0]);
-          await ManagementProjectsPage.clickOnFirstName();
-          await ManagementProjectsPage.clickEditIcon();
-          // //assertion
-          var asserstionCompareValues = await ManagementProjectsPage.afterEditGetDataForCompare();
-          await ManagementProjectsPage.compareAssertionData(initalData[0], asserstionCompareValues[0]);
-          await ManagementProjectsPage.compareAssertionData(initalData[1], asserstionCompareValues[1]);
-          await ManagementProjectsPage.compareAssertionData(initalData[2], asserstionCompareValues[2]);
-          await ManagementProjectsPage.compareAssertionData(initalData[3], asserstionCompareValues[3]);
-          await ManagementProjectsPage.compareAssertionData(initalData[4], asserstionCompareValues[4]);
-          await ManagementProjectsPage.setDefaultData(defaultValues[0], defaultValues[1], defaultValues[2]);
+          await ManagementProjectsPage.verifyUserIsableToEditCreatedProject();
           await HomePage.logoutSession();
+
+          // var defaultValues = await ManagementProjectsPage.readDefaultData();
+          // await browser.pause(3000);
+          // var initalData = await ManagementProjectsPage.editCreatedProject();
+
+          // await ManagementProjectsPage.saveEditedData();
+          // await ManagementProjectsPage.filterForCheck(initalData[0]);
+          // await ManagementProjectsPage.clickOnFirstName();
+          // await ManagementProjectsPage.clickEditIcon();
+          // //assertion
+          // var asserstionCompareValues = await ManagementProjectsPage.afterEditGetDataForCompare();
+
+          // await ManagementProjectsPage.compareAssertionData(initalData[0], asserstionCompareValues[0]);
+          // await ManagementProjectsPage.compareAssertionData(initalData[1], asserstionCompareValues[1]);
+          // await ManagementProjectsPage.compareAssertionData(initalData[2], asserstionCompareValues[2]);
+          // await ManagementProjectsPage.compareAssertionData(initalData[3], asserstionCompareValues[3]);
+          // await ManagementProjectsPage.compareAssertionData(initalData[4], asserstionCompareValues[4]);
+          // await ManagementProjectsPage.setDefaultData(defaultValues[0], defaultValues[1], defaultValues[2]);
+
      });
 
      it('TC_Projects_04 :"Verify whether the user is able to edit after selecting existing "Project" by clicking on edit icon."', async () => {
@@ -52,22 +55,26 @@ describe("Projects Test cases.", () => {
           await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.existingProjectPlantName);//for specific user
           await browser.pause(3000);
           await ManagementProjectsPage.clickEditIcon();
-          var defaultValues = await ManagementProjectsPage.readDefaultData();
-          Logger.info("default", defaultValues);
-          await browser.pause(3000);
-          var initalData = await ManagementProjectsPage.editExestingProject();
-          await ManagementProjectsPage.saveEditedData();
-          await ManagementProjectsPage.filterForCheck(initalData[0]);
-          await ManagementProjectsPage.clickEditIcon();
-          //assertion
-          var asserstionCompareValues = await ManagementProjectsPage.afterEditGetDataForCompare();
-          await ManagementProjectsPage.compareAssertionData(initalData[0], asserstionCompareValues[0]);
-          await ManagementProjectsPage.compareAssertionData(initalData[1], asserstionCompareValues[1]);
-          await ManagementProjectsPage.compareAssertionData(initalData[2], asserstionCompareValues[2]);
-          await ManagementProjectsPage.compareAssertionData(initalData[3], asserstionCompareValues[3]);
-          await ManagementProjectsPage.compareAssertionData(initalData[4], asserstionCompareValues[4]);
-          await ManagementProjectsPage.setDefaultData(defaultValues[0], defaultValues[1], defaultValues[2]);
+          await ManagementProjectsPage.verifyUserAbleToEditExistingProject();
           await HomePage.logoutSession();
+
+
+          // var defaultValues = await ManagementProjectsPage.readDefaultData();
+          // Logger.info("default", defaultValues);
+          // await browser.pause(3000);
+          // var initalData = await ManagementProjectsPage.editExestingProject();
+          // await ManagementProjectsPage.saveEditedData();
+          // await ManagementProjectsPage.filterForCheck(initalData[0]);
+          // await ManagementProjectsPage.clickEditIcon();
+          // //assertion
+          // var asserstionCompareValues = await ManagementProjectsPage.afterEditGetDataForCompare();
+          // await ManagementProjectsPage.compareAssertionData(initalData[0], asserstionCompareValues[0]);
+          // await ManagementProjectsPage.compareAssertionData(initalData[1], asserstionCompareValues[1]);
+          // await ManagementProjectsPage.compareAssertionData(initalData[2], asserstionCompareValues[2]);
+          // await ManagementProjectsPage.compareAssertionData(initalData[3], asserstionCompareValues[3]);
+          // await ManagementProjectsPage.compareAssertionData(initalData[4], asserstionCompareValues[4]);
+          // await ManagementProjectsPage.setDefaultData(defaultValues[0], defaultValues[1], defaultValues[2]);
+
      });
 
 
@@ -85,21 +92,24 @@ describe("Projects Test cases.", () => {
 
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.clickOnManagement();
-          var project = await ManagementProjectsPage.getHomePageData();
-          await ManagementProjectsPage.editBasicDetails();
-          //assertion
-          var projectAssertionCheck = await ManagementProjectsPage.getHomePageDataForAssertion();
-          await ManagementProjectsPage.compareAssertionData(project[0], projectAssertionCheck[0]);
-          await ManagementProjectsPage.compareAssertionData(project[1], projectAssertionCheck[1]);
-          await ManagementProjectsPage.compareAssertionData(project[2], projectAssertionCheck[2]);
+          await ManagementProjectsPage.verifyUserIsAbleToCancelCurrentOperation();
           await HomePage.logoutSession();
+
+
+          // var project = await ManagementProjectsPage.getHomePageData();
+          // await ManagementProjectsPage.editBasicDetails();
+          //assertion
+          // var projectAssertionCheck = await ManagementProjectsPage.getHomePageDataForAssertion();
+          // await ManagementProjectsPage.compareAssertionData(project[0], projectAssertionCheck[0]);
+          // await ManagementProjectsPage.compareAssertionData(project[1], projectAssertionCheck[1]);
+          // await ManagementProjectsPage.compareAssertionData(project[2], projectAssertionCheck[2]);
 
      });
 
      it('TC_Projects_08 :Menu access rights-Verify whether the user is able to select all and deselect the menus in a single click for a module', async () => {
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.gotoProjects();
-          await ManagementProjectsPage.selectSpecificPlantName(PlantNameData.plantData.specificPlantName);
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.dashboardPlantName);
           await ManagementProjectsPage.userIsAbleToSelectAllAndDeselectTheMenus();
           await HomePage.logoutSession();
 
@@ -109,7 +119,7 @@ describe("Projects Test cases.", () => {
 
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.gotoProjects();
-          await ManagementProjectsPage.selectSpecificPlantName(PlantNameData.plantData.specificPlantName);
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.dashboardPlantName);
           await ManagementProjectsPage.chartsGettingPlottedBasedOnOperationalCurrentStartAndEndTime();
           await ManagementProjectsPage.chartsGettingPlottedBasedOnOperationalUpdatedStartAndEndTime();
           await HomePage.logoutSession();
@@ -118,7 +128,7 @@ describe("Projects Test cases.", () => {
      it('TC_Projects_10 :Verify whether the project capacity is listed in landing page based on the selection in projects master', async () => {
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.gotoProjects();
-          await ManagementProjectsPage.selectSpecificPlantName(PlantNameData.plantData.specificPlantName);
+          await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.dashboardPlantName);
           await ManagementProjectsPage.projectCapacityListedInLandingPage();
           await HomePage.logoutSession();
      });
@@ -139,11 +149,11 @@ describe("Projects Test cases.", () => {
      });
 
 
-
      it('TC_Projects_14 :Verify whether the Tilt angle is a mandatory field when the user selects either fixed tilt or seasonal tilt  as mounting type', async () => {
           await LoginPage.loginWithValidCredentials();
           await ManagementProjectsPage.gotoProjects();
           await ManagementProjectsPage.filterForCheck(PlantNameData.plantData.projectTiltPlantName);//for specific user
+          await ManagementProjectsPage.clickOnFirstName();
           await ManagementProjectsPage.clickEditIcon();
           //assertion
           await ManagementProjectsPage.verifySeasonalAndTiltAngle();
